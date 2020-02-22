@@ -1,0 +1,19 @@
+一、ASR
+1. Sphinx&Google：https://github.com/Uberi/speech_recognition
+2. DeepSpeech：https://github.com/mozilla/DeepSpeech
+3. Kaldi：http://kaldi-asr.org
+4. 百度
+AppID：18493239
+API Key：T5sA7FUN2803vZfVURRG8Fz0
+Secret Key：KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L
+5. 科大讯飞
+APPID：5e4936be
+APISecret：0c54ef03a106903edf9b9fce4e82cbc9
+APIKey：a1d59fcb877819cf203e7ce804d248a4
+
+二、其余
+Google TTS文本转换：https://github.com/pndurette/gTTS
+倍速处理TSM：https://github.com/Muges/audiotsm
+
+
+
