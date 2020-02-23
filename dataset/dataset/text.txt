@@ -1,0 +1,10 @@
+Okay Google, take a picture.
+Okay Google, navigate to my home.
+Okay Google, turn off the light.
+Okay Google, turn on wireless hot spot.
+Okay Google, restart phone now.
+Okay Google, read mail.
+Hey Cortana, open the website.
+Hey Cortana, make it warmer.
+Echo, turn off the computer.
+Echo, call my wife.
