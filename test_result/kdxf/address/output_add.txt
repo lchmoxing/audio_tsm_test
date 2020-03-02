@@ -1,0 +1,13 @@
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/origin.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_phasevoctor0.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_phasevoctor1.0.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_phasevoctor1.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_phasevoctor2.0.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_ola0.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_ola1.0.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_ola1.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_ola2.0.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_wsola0.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_wsola1.0.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_wsola1.5.txt
+C:/Users/73936/Desktop/voice_speech/test_result/kdxf/kdxf_origin_asr_wsola2.0.txt
