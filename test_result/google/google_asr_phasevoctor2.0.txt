@@ -1,10 +1,4 @@
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
-OK Google
-Google Speech Recognition could not understand audio!
-OK Google
-OK Google
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.

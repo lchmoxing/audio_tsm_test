@@ -6,5 +6,5 @@
  OK, Google read mail.
  Hey, cortana open the website.
  Hey, cortana! Make it warmer.
- Air crow. Turn off the computer.
+.
  Model common words.

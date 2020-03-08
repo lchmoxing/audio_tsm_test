@@ -1,10 +1,4 @@
-OK Google
-OK Google navigate to my home
-OK Google
-OK Google
-OK Google
-OK Google
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
-Google Speech Recognition could not understand audio!
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.
+Could not request results from Google Speech Recognition service.

@@ -153,7 +153,7 @@ for num in range(0, 10):
     audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
     baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
     baidu_asr(audio_origin, baidu_asr_origin)
-    for i in np.arange(0.25, 0.75, 0.25):
+    for i in np.arange(0.25, 3.0, 0.25):
         
         audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
         audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
