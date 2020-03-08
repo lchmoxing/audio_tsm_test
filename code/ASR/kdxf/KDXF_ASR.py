@@ -35,6 +35,7 @@ from datetime import datetime
 from time import mktime
 import _thread as thread
 
+import numpy as np
 from pydub import AudioSegment
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
@@ -174,42 +175,78 @@ def on_open(ws):
 
 audio_add_list = []
 text_add_list = []
+
+def kdxf_asr(audio, filename):
+    global wsParam
+    wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
+        APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
+        AudioFile= audio )
+    websocket.enableTrace(False)
+    wsUrl = wsParam.create_url()
+    ws = websocket.WebSocketApp(wsUrl, on_message=on_message, on_error=on_error, on_close=on_close)
+    ws.on_open = on_open
+    ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
+    # with open(output_add) as output_add_object:
+    #     for text_add in output_add_object:
+    #         text_add = text_add.strip()
+    with open(filename, 'a') as file_object:
+        file_object.write(result + '\n')
 if __name__ == "__main__":
     # 测试时候在此处正确填写相关信息即可运行
     num = 0#choose one of the ten origin speech
-    input_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/input_add.txt'
-    output_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/output_add.txt'
+    for num in range(0, 10):
+        num +=1
+        audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
+        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
+        kdxf_asr(audio_origin, kdxf_asr_origin)
+        for i in np.arange(0.25, 3.0, 0.25):
+            
+            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
+            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
+
+            
+            # google_asr_origin = 'C:/github_code/audio_tsm_test/test_result/google_origin.txt'
+            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_phasevoctor' + str(i) + '.txt'
+            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_ola' + str(i) + '.txt'
+            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_wsola' + str(i) + '.txt'
+            
+            kdxf_asr(audio_phasevoctor, kdxf_asr_phasevoctor)
+            kdxf_asr(audio_ola, kdxf_asr_ola)
+            kdxf_asr(audio_wsola, kdxf_asr_wsola)
+    # input_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/input_add.txt'
+    # output_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/output_add.txt'
     # filename = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/origin.txt'
-    with open(input_add) as input_add_object:
-        for audio_add in input_add_object:
-            audio_add = audio_add.strip()
-            audio_add_list.append(audio_add)
-    # a = len(audio_add_list)
-    with open(output_add) as output_add_object:
-        for text_add in output_add_object:
-            text_add = text_add.strip()
-            text_add_list.append(text_add)
+    # with open(input_add) as input_add_object:
+    #     for audio_add in input_add_object:
+    #         audio_add = audio_add.strip()
+    #         audio_add_list.append(audio_add)
+    # # a = len(audio_add_list)
+    # with open(output_add) as output_add_object:
+    #     for text_add in output_add_object:
+    #         text_add = text_add.strip()
+    #         text_add_list.append(text_add)
     # b = len(text_add_list)#choose one of the output file address
     # print(a)
     # print(b)
     # print(text_add_list[1])
-    for a in range(0,len(audio_add_list)):
-        for num in range(0,10):
-            num +=1
-            wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
-                    APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
-                    AudioFile= audio_add_list[a] + str(num) +'.wav')
-            websocket.enableTrace(False)
-            wsUrl = wsParam.create_url()
-            ws = websocket.WebSocketApp(wsUrl, on_message=on_message, on_error=on_error, on_close=on_close)
-            ws.on_open = on_open
-            ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
-            # with open(output_add) as output_add_object:
-            #     for text_add in output_add_object:
-            #         text_add = text_add.strip()
-            with open(text_add_list[a], 'a') as file_object:
-                file_object.write(result + '\n')
-        a +=1
+    # for a in range(0,len(audio_add_list)):
+    #     for num in range(0,10):
+    #         num +=1
+            # wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
+            #         APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
+            #         AudioFile= audio_add_list[a] + str(num) +'.wav')
+            # websocket.enableTrace(False)
+            # wsUrl = wsParam.create_url()
+            # ws = websocket.WebSocketApp(wsUrl, on_message=on_message, on_error=on_error, on_close=on_close)
+            # ws.on_open = on_open
+            # ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
+            # # with open(output_add) as output_add_object:
+            # #     for text_add in output_add_object:
+            # #         text_add = text_add.strip()
+            # with open(text_add_list[a], 'a') as file_object:
+            #     file_object.write(result + '\n')
+        # a +=1
     print('successfully')
              
         
