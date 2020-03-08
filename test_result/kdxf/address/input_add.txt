@@ -1,0 +1,13 @@
+C:/Users/73936/Desktop/voice_speech/dataset/
+C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor0.5_
+C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.0_
+C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.5_
+C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor2.0_
+C:/Users/73936/Desktop/voice_speech/dataset/ola0.5_
+C:/Users/73936/Desktop/voice_speech/dataset/ola1.0_
+C:/Users/73936/Desktop/voice_speech/dataset/ola1.5_
+C:/Users/73936/Desktop/voice_speech/dataset/ola2.0_
+C:/Users/73936/Desktop/voice_speech/dataset/wsola0.5_
+C:/Users/73936/Desktop/voice_speech/dataset/wsola1.0_
+C:/Users/73936/Desktop/voice_speech/dataset/wsola1.5_
+C:/Users/73936/Desktop/voice_speech/dataset/wsola2.0_

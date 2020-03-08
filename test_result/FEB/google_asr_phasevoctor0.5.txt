@@ -1,0 +1,10 @@
+Could not request results from Google Speech Recognition service.
+OK Google navigate to
+OK Google
+OK Google
+OK Google
+OK Google
+Google Speech Recognition could not understand audio!
+Google Speech Recognition could not understand audio!
+turn off
+Google Speech Recognition could not understand audio!
