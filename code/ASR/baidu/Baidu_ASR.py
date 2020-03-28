@@ -28,10 +28,10 @@ else:
         # On most other platforms the best timer is time.time()
         timer = time.time
 
-# API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
-# SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
-API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
-SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
+API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
+SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
+# API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
+# SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
 
 # 需要识别的文件
 AUDIO_FILE = 'C:/Users/73936/Desktop/voice_speech/dataset/1.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
@@ -154,8 +154,8 @@ for num in range(0, 10):
     # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
     # baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
     ### voice without wake words
-    audio_origin = 'C:/github_code/audio_tsm_test/dataset/speech_origin/with_wake_words/16k/' + str(num) +'.wav'
-    baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/baidu_origin.txt'
+    audio_origin = 'C:/github_code/audio_tsm_test/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
+    baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
     baidu_asr(audio_origin, baidu_asr_origin)
     for i in np.arange(0.25, 3.0, 0.25):
         # ### voice with wake words
@@ -168,13 +168,13 @@ for num in range(0, 10):
         # baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_asr_wsola' + str(i) + '.txt'       
         
         ### voice without wake words
-        audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-        audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
+        audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+        audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+        audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
 
-        baidu_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/baidu_asr_phasevoctor' + str(i) + '.txt'
-        baidu_asr_ola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/baidu_asr_ola' + str(i) + '.txt'
-        baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/baidu_asr_wsola' + str(i) + '.txt'  
+        baidu_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
+        baidu_asr_ola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
+        baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
         baidu_asr(audio_phasevoctor, baidu_asr_phasevoctor)
         baidu_asr(audio_ola, baidu_asr_ola)
         baidu_asr(audio_wsola, baidu_asr_wsola)
