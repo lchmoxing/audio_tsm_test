@@ -2,6 +2,7 @@
 ###written by qhjiang 
 from gtts import gTTS
 from pydub import AudioSegment
+import ffmpeg
 
 AudioSegment.converter = "C:/software/ffmpeg-20200218-ebee808-win64-static/ffmpeg-20200218-ebee808-win64-static/bin/ffmpeg.exe"
 filename = "C:/Users/73936/Desktop/voice_speech/dataset/text/textwithwakewords.txt"
@@ -18,8 +19,9 @@ with open(filename) as text_object:
         # filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
         # filename_mp3 = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
         # filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
-        filename_mp3 = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
-        filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/with_wake_words/' + str(num) +'.wav'
+        filename_mp3 = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/with_wake_words/16k/' + str(num) +'.mp3'
+        filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/with_wake_words/16k' + str(num) +'.wav'
+        ffmpeg.input('filename_mp3').output('filename_mp3', ar=16000).run()
         tts.save(filename_mp3)
         AudioSegment.from_mp3(filename_mp3).export(filename_wav, format = "wav")
         # tts.save('C:/Users/73936/Desktop/voice_speech/dataset/%d.mp3'%(num))

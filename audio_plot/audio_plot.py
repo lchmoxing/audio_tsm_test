@@ -26,37 +26,37 @@ def waveform1(audio_type):
             # audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
         plt.savefig('C:/github_code/audio_tsm_test/audio_plot/waveform/differentspeed/' + str(audio_type) + '_' + str(num) + '.png')
         plt.clf()
-# def waveform2():
-#     ### the same audio and the speed, origin and 3 different algorithm
-#     for num in range(0,10):
-#         num +=1
-#         # plt.figure(num)
-#         # plt.title("phasecotor_1")
-#         for i in np.arange(0.25, 3.0, 0.25):
-#             # n = int(i/0.25 +1)
-#             ax = plt.subplot(2, 2, 1)
-#             ax.set_title("origin")
-#             audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) + '.wav'
-#             wave=thinkdsp.read_wave(audio_origin)
-#             wave.plot()
-#             ax = plt.subplot(2, 2, 2)
-#             ax.set_title("phasevoctor")
-#             audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-#             wave=thinkdsp.read_wave(audio_phasevoctor)
-#             wave.plot()
-#             ax = plt.subplot(2, 2, 3)
-#             ax.set_title("ola")
-#             audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
-#             wave=thinkdsp.read_wave(audio_ola)
-#             wave.plot()
-#             ax = plt.subplot(2, 2, 4)
-#             ax.set_title("wsola")
-#             audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
-#             wave=thinkdsp.read_wave(audio_wsola)
-#             wave.plot()
-#             plt.tight_layout()           
-#             plt.savefig('C:/github_code/audio_tsm_test/audio_plot/waveform/differentalgorithm/' + str(i) + '_' + str(num) + '.png')
-#             plt.clf()
+def waveform2():
+    ### the same audio and the speed, origin and 3 different algorithm
+    for num in range(0,10):
+        num +=1
+        # plt.figure(num)
+        # plt.title("phasecotor_1")
+        for i in np.arange(0.25, 3.0, 0.25):
+            # n = int(i/0.25 +1)
+            ax = plt.subplot(2, 2, 1)
+            ax.set_title("origin")
+            audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) + '.wav'
+            wave=thinkdsp.read_wave(audio_origin)
+            wave.plot()
+            ax = plt.subplot(2, 2, 2)
+            ax.set_title("phasevoctor")
+            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            wave=thinkdsp.read_wave(audio_phasevoctor)
+            wave.plot()
+            ax = plt.subplot(2, 2, 3)
+            ax.set_title("ola")
+            audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
+            wave=thinkdsp.read_wave(audio_ola)
+            wave.plot()
+            ax = plt.subplot(2, 2, 4)
+            ax.set_title("wsola")
+            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
+            wave=thinkdsp.read_wave(audio_wsola)
+            wave.plot()
+            plt.tight_layout()           
+            plt.savefig('C:/github_code/audio_tsm_test/audio_plot/waveform/differentalgorithm/' + str(i) + '_' + str(num) + '.png')
+            plt.clf()
 
 def wavespectrum1(audio_type):
     ### the same audio and the same algorithm, origin and 11 different audio speed
@@ -126,13 +126,13 @@ def wavespectrum2():
             plt.savefig('C:/github_code/audio_tsm_test/audio_plot/spectrum/differentalgorithm/' + str(i) + '_' + str(num) + '.png')
             plt.clf()
 
-# waveform1("phasevoctor")
-# waveform1("ola")
-# waveform1("wsola")
-# # waveform2()
-# wavespectrum1("phasevoctor")
-# wavespectrum1("ola")
-# wavespectrum1("wsola")
+waveform1("phasevoctor")
+waveform1("ola")
+waveform1("wsola")
+waveform2()
+wavespectrum1("phasevoctor")
+wavespectrum1("ola")
+wavespectrum1("wsola")
 wavespectrum2()
 print("successfully!")
 

@@ -53,7 +53,7 @@ class Ws_Param(object):
         self.CommonArgs = {"app_id": self.APPID}
         # 业务参数(business)，更多个性化参数可在官网查看
         # self.BusinessArgs = {"domain": "iat", "language": "zh_cn", "accent": "mandarin", "vinfo":1,"vad_eos":10000}
-        self.BusinessArgs = {"domain": "iat", "language": "en_us"}
+        self.BusinessArgs = {"domain": "iat", "language": "en_us", "vad_eos":10000}
 
     # 生成url
     def create_url(self):
@@ -101,15 +101,16 @@ def on_message(ws, message):
             print("sid:%s call error:%s code is:%s" % (sid, errMsg, code))
             # with open(filename, 'a') as file_object:
             #     file_object.write("KDXF could not understand audio!" + '\n')
-        else:
+        else:                      
             data = json.loads(message)["data"]["result"]["ws"]
             # print(json.loads(message))
+            print(data)
             result = ""
             for i in data:
                 for w in i["cw"]:
                     result += w["w"]
             # print("sid:%s call success!,data is:%s" % (sid, json.dumps(data, ensure_ascii=False)))
-            result = result.replace("\n", "")
+            # result = result.replace("\n", "")
             print(result)
             #print(type(result))
     except Exception as e:
@@ -148,7 +149,7 @@ def on_open(ws):
                          "business": wsParam.BusinessArgs,
                          "data": {"status": 0, "format": "audio/L16;rate=16000",
                                   "audio": str(base64.b64encode(buf), 'utf-8'),
-                                  "encoding": "raw"}}
+                                  "encoding": "lame"}}
                     d = json.dumps(d)
                     ws.send(d)
                     status = STATUS_CONTINUE_FRAME
@@ -156,13 +157,13 @@ def on_open(ws):
                 elif status == STATUS_CONTINUE_FRAME:
                     d = {"data": {"status": 1, "format": "audio/L16;rate=16000",
                                   "audio": str(base64.b64encode(buf), 'utf-8'),
-                                  "encoding": "raw"}}
+                                  "encoding": "lame"}}
                     ws.send(json.dumps(d))
                 # 最后一帧处理
                 elif status == STATUS_LAST_FRAME:
                     d = {"data": {"status": 2, "format": "audio/L16;rate=16000",
                                   "audio": str(base64.b64encode(buf), 'utf-8'),
-                                  "encoding": "raw"}}
+                                  "encoding": "lame"}}
                     ws.send(json.dumps(d))
                     time.sleep(1)
                     break
@@ -173,13 +174,14 @@ def on_open(ws):
     thread.start_new_thread(run, ())
 
 
-audio_add_list = []
-text_add_list = []
+# audio_add_list = []
+# text_add_list = []
 
 def kdxf_asr(audio, filename):
     global wsParam
-    wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
-        APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
+    # APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',APISecret='0c54ef03a106903edf9b9fce4e82cbc9'
+    wsParam = Ws_Param(APPID='5e6dbb5d', APIKey='9958a244dd66c20854c98e4b6e359530',
+        APISecret='62d36bbf3ac95ad860f447def4518d1c',
         AudioFile= audio )
     websocket.enableTrace(False)
     wsUrl = wsParam.create_url()
@@ -191,6 +193,7 @@ def kdxf_asr(audio, filename):
     #         text_add = text_add.strip()
     with open(filename, 'a') as file_object:
         file_object.write(result + '\n')
+
 if __name__ == "__main__":
     # 测试时候在此处正确填写相关信息即可运行
     num = 0#choose one of the ten origin speech
@@ -199,11 +202,11 @@ if __name__ == "__main__":
         # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
         # kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
         # kdxf_asr(audio_origin, kdxf_asr_origin)
-        audio_origin = 'C:/github_code/audio_tsm_test/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
-        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/without_wake_words/kdxf_origin.txt'
+        audio_origin =  'C:/github_code/audio_tsm_test/dataset/speech_origin/with_wake_words/16k/' + str(num) +'.mp3'
+        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_origin.txt'
         kdxf_asr(audio_origin, kdxf_asr_origin)
         for i in np.arange(0.25, 3.0, 0.25):
-            
+            ### voice with wake words
             # audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
             # audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
             # audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
@@ -213,14 +216,15 @@ if __name__ == "__main__":
             # kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_ola' + str(i) + '.txt'
             # kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_wsola' + str(i) + '.txt'
             
-            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/without_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-            audio_ola = 'C:/github_code/audio_tsm_test/dataset/without_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
-            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/without_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
+            ### voice without wake words
+            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+            audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
            
             # google_asr_origin = 'C:/github_code/audio_tsm_test/test_result/google_origin.txt'
-            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/without_wake_words/kdxf_asr_phasevoctor' + str(i) + '.txt'
-            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/without_wake_words/kdxf_asr_ola' + str(i) + '.txt'
-            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/without_wake_words/kdxf_asr_wsola' + str(i) + '.txt'
+            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_phasevoctor' + str(i) + '.txt'
+            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_ola' + str(i) + '.txt'
+            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_wsola' + str(i) + '.txt'
 
             kdxf_asr(audio_phasevoctor, kdxf_asr_phasevoctor)
             kdxf_asr(audio_ola, kdxf_asr_ola)
