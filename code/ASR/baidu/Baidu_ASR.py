@@ -40,6 +40,7 @@ SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
 # 文件格式
 FORMAT = AUDIO_FILE[-3:];  # 文件后缀只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
 
+
 CUID = '123456PYTHON'
 # 采样率
 RATE = 16000;  # 固定值
