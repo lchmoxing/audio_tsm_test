@@ -202,8 +202,8 @@ if __name__ == "__main__":
         # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
         # kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
         # kdxf_asr(audio_origin, kdxf_asr_origin)
-        audio_origin =  'C:/github_code/audio_tsm_test/dataset/speech_origin/with_wake_words/16k/' + str(num) +'.mp3'
-        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_origin.txt'
+        audio_origin =  'C:/github_code/audio_tsm_test/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.mp3'
+        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_origin.txt'
         kdxf_asr(audio_origin, kdxf_asr_origin)
         for i in np.arange(0.25, 3.0, 0.25):
             ### voice with wake words
@@ -217,14 +217,14 @@ if __name__ == "__main__":
             # kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_wsola' + str(i) + '.txt'
             
             ### voice without wake words
-            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-            audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+            audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
            
             # google_asr_origin = 'C:/github_code/audio_tsm_test/test_result/google_origin.txt'
-            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_phasevoctor' + str(i) + '.txt'
-            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_ola' + str(i) + '.txt'
-            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/kdxf_asr_wsola' + str(i) + '.txt'
+            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_phasevoctor' + str(i) + '.txt'
+            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_ola' + str(i) + '.txt'
+            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_wsola' + str(i) + '.txt'
 
             kdxf_asr(audio_phasevoctor, kdxf_asr_phasevoctor)
             kdxf_asr(audio_ola, kdxf_asr_ola)
