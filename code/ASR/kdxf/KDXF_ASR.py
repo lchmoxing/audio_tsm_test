@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 #
-#   author: iflytek
+#   author: qinhong
 #
 #  本demo测试时运行的环境为：Windows + Python3.7
+#  查看代码直接看main部分
 #  本demo测试成功运行时所安装的第三方库及其版本如下，您可自行逐一或者复制到一个新的txt文件利用pip一次性安装：
 #   cffi==1.12.3
 #   gevent==1.4.0
@@ -34,13 +35,15 @@ from wsgiref.handlers import format_date_time
 from datetime import datetime
 from time import mktime
 import _thread as thread
-
+import os
 import numpy as np
 from pydub import AudioSegment
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
 
+path1=os.path.abspath('...')
+print(path1)
 class Ws_Param(object):
     # 初始化
     def __init__(self, APPID, APIKey, APISecret, AudioFile):
@@ -191,6 +194,7 @@ def kdxf_asr(audio, filename):
     # with open(output_add) as output_add_object:
     #     for text_add in output_add_object:
     #         text_add = text_add.strip()
+    #将ASR识别结果写入文件
     with open(filename, 'a') as file_object:
         file_object.write(result + '\n')
 
@@ -202,8 +206,8 @@ if __name__ == "__main__":
         # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
         # kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
         # kdxf_asr(audio_origin, kdxf_asr_origin)
-        audio_origin =  'C:/github_code/audio_tsm_test/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.mp3'
-        kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_origin.txt'
+        audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.mp3'
+        kdxf_asr_origin = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_origin.txt'
         kdxf_asr(audio_origin, kdxf_asr_origin)
         for i in np.arange(0.25, 3.0, 0.25):
             ### voice with wake words
@@ -217,14 +221,14 @@ if __name__ == "__main__":
             # kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_asr_wsola' + str(i) + '.txt'
             
             ### voice without wake words
-            audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-            audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-            audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+            audio_phasevoctor = path1 + '/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+            audio_ola = path1 + '/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+            audio_wsola = path1 + '/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
            
             # google_asr_origin = 'C:/github_code/audio_tsm_test/test_result/google_origin.txt'
-            kdxf_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_phasevoctor' + str(i) + '.txt'
-            kdxf_asr_ola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_ola' + str(i) + '.txt'
-            kdxf_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/kdxf/16k/without_wake_words/kdxf_asr_wsola' + str(i) + '.txt'
+            kdxf_asr_phasevoctor = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_phasevoctor' + str(i) + '.txt'
+            kdxf_asr_ola = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_ola' + str(i) + '.txt'
+            kdxf_asr_wsola = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_wsola' + str(i) + '.txt'
 
             kdxf_asr(audio_phasevoctor, kdxf_asr_phasevoctor)
             kdxf_asr(audio_ola, kdxf_asr_ola)

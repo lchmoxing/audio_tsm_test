@@ -8,6 +8,8 @@ import ast
 import numpy as np
 
 IS_PY3 = sys.version_info.major == 3
+path1=os.path.abspath('...')
+print(path1)
 
 if IS_PY3:
     from urllib.request import urlopen
@@ -35,11 +37,10 @@ SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
 # SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
 
 # # 需要识别的文件
-# AUDIO_FILE = 'C:/Users/73936/Desktop/voice_speech/dataset/1.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
+AUDIO_FILE = path1 + '/dataset/speech_origin/without_wake_words/16k/' + 1 +'.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
 # TEXT_FILE = 'C:/Users/73936/Desktop/baidutest.txt'
 # 文件格式
-FORMAT = AUDIO_FILE[-3:];  # 文件后缀只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
-
+FORMAT = AUDIO_FILE[-3:]  # 文件后缀只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
 
 CUID = '123456PYTHON'
 # 采样率
@@ -47,7 +48,7 @@ RATE = 16000;  # 固定值
 
 # 普通版
 
-DEV_PID = 1737;  # 1537 表示识别普通话，使用输入法模型。根据文档填写PID，选择语言及识别模型
+DEV_PID = 1737;  # 1737 表示识别英文，使用输入法模型。根据文档填写PID，选择语言及识别模型
 ASR_URL = 'http://vop.baidu.com/server_api'
 SCOPE = 'audio_voice_assistant_get'  # 有此scope表示有asr能力，没有请在网页里勾选，非常旧的应用可能没有
 
@@ -142,12 +143,12 @@ def baidu_asr(AUDIO_FILE, TEXT_FILE):
             result_text = str(result_str["result"])
             result_text = result_text.replace('[','').replace(']','').replace('\'','')
             print(result_text)
-            # with open(TEXT_FILE, "a") as file_object:
-            #     file_object.write(result_text + '\n')
+            with open(TEXT_FILE, "a") as file_object:
+                file_object.write(result_text + '\n')
         else:
             print("error")
-            # with open(TEXT_FILE, "a") as file_object:
-            #     file_object.write("error!" + str(result_str["err_no"]) + '\n')
+            with open(TEXT_FILE, "a") as file_object:
+                file_object.write("error!" + str(result_str["err_no"]) + '\n')
 
 num = 0
 for num in range(0, 10):
@@ -156,9 +157,9 @@ for num in range(0, 10):
     # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
     # baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
     ### voice without wake words
-    # print(os.path.abspath(os.path.dirname(sys.argv[0])))
-    audio_origin = 'C:/github_code/audio_tsm_test/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
-    baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
+    print(os.path.abspath(os.path.dirname(sys.argv[0])))
+    audio_origin = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
+    baidu_asr_origin = path1 + '/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
     baidu_asr(audio_origin, baidu_asr_origin)
     for i in np.arange(0.25, 3.0, 0.25):
         # ### voice with wake words
@@ -171,13 +172,13 @@ for num in range(0, 10):
         # baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_asr_wsola' + str(i) + '.txt'       
         
         ### voice without wake words
-        audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        audio_ola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-        audio_wsola = 'C:/github_code/audio_tsm_test/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
+        audio_phasevoctor = path1 + '/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+        audio_ola = path1 + 'dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+        audio_wsola = path1 + '/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
 
-        baidu_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
-        baidu_asr_ola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
-        baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
+        baidu_asr_phasevoctor = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
+        baidu_asr_ola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
+        baidu_asr_wsola = path1 + 'test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
         baidu_asr(audio_phasevoctor, baidu_asr_phasevoctor)
         baidu_asr(audio_ola, baidu_asr_ola)
         baidu_asr(audio_wsola, baidu_asr_wsola)
