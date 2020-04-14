@@ -37,7 +37,7 @@ SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
 # SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
 
 # # 需要识别的文件
-AUDIO_FILE = path1 + '/dataset/speech_origin/without_wake_words/16k/' + 1 +'.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
+AUDIO_FILE = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(1) +'.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
 # TEXT_FILE = 'C:/Users/73936/Desktop/baidutest.txt'
 # 文件格式
 FORMAT = AUDIO_FILE[-3:]  # 文件后缀只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
@@ -173,12 +173,12 @@ for num in range(0, 10):
         
         ### voice without wake words
         audio_phasevoctor = path1 + '/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        audio_ola = path1 + 'dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+        audio_ola = path1 + '/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
         audio_wsola = path1 + '/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
 
         baidu_asr_phasevoctor = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
         baidu_asr_ola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
-        baidu_asr_wsola = path1 + 'test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
+        baidu_asr_wsola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
         baidu_asr(audio_phasevoctor, baidu_asr_phasevoctor)
         baidu_asr(audio_ola, baidu_asr_ola)
         baidu_asr(audio_wsola, baidu_asr_wsola)
