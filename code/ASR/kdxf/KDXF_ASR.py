@@ -42,7 +42,9 @@ STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
 STATUS_LAST_FRAME = 2  # 最后一帧的标识
 
-path1=os.path.abspath('...')
+path =os.path.abspath('..')
+path =os.path.dirname(path)
+path1 =os.path.dirname(path)
 print(path1)
 class Ws_Param(object):
     # 初始化
