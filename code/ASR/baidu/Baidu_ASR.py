@@ -6,6 +6,7 @@ import json
 import time
 import ast
 import numpy as np
+from jiwer import wer
 
 IS_PY3 = sys.version_info.major == 3
 path =os.path.abspath('..')
@@ -16,6 +17,7 @@ print(path1)
 if IS_PY3:
     from urllib.request import urlopen
     from urllib.request import Request
+
     from urllib.error import URLError
     from urllib.parse import urlencode
 
@@ -49,6 +51,7 @@ CUID = '123456PYTHON'
 RATE = 16000;  # 固定值
 
 # 普通版
+
 
 DEV_PID = 1737;  # 1737 表示识别英文，使用输入法模型。根据文档填写PID，选择语言及识别模型
 ASR_URL = 'http://vop.baidu.com/server_api'
@@ -145,12 +148,12 @@ def baidu_asr(AUDIO_FILE, TEXT_FILE):
             result_text = str(result_str["result"])
             result_text = result_text.replace('[','').replace(']','').replace('\'','')
             print(result_text)
-            # with open(TEXT_FILE, "a") as file_object:
-            #     file_object.write(result_text + '\n')
+            with open(TEXT_FILE, "a") as file_object:
+                 file_object.write(result_text + '\n')
         else:
             print("error")
-            # with open(TEXT_FILE, "a") as file_object:
-            #     file_object.write("error!" + str(result_str["err_no"]) + '\n')
+            with open(TEXT_FILE, "a") as file_object:
+                 file_object.write("error!" + str(result_str["err_no"]) + '\n')
 
 num = 0
 for num in range(0, 10):
