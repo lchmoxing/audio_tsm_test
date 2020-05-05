@@ -37,6 +37,8 @@ from time import mktime
 import _thread as thread
 import os
 import numpy as np
+import pandas as pd
+import csv
 from pydub import AudioSegment
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
@@ -46,6 +48,7 @@ path =os.path.abspath('..')
 path =os.path.dirname(path)
 path1 =os.path.dirname(path)
 print(path1)
+
 class Ws_Param(object):
     # 初始化
     def __init__(self, APPID, APIKey, APISecret, AudioFile):
@@ -58,7 +61,7 @@ class Ws_Param(object):
         self.CommonArgs = {"app_id": self.APPID}
         # 业务参数(business)，更多个性化参数可在官网查看
         # self.BusinessArgs = {"domain": "iat", "language": "zh_cn", "accent": "mandarin", "vinfo":1,"vad_eos":10000}
-        self.BusinessArgs = {"domain": "iat", "language": "en_us", "vad_eos":10000}
+        self.BusinessArgs = {"domain": "iat", "language": "en_us", "vad_eos":2000}
 
     # 生成url
     def create_url(self):
@@ -108,8 +111,6 @@ def on_message(ws, message):
             #     file_object.write("KDXF could not understand audio!" + '\n')
         else:                      
             data = json.loads(message)["data"]["result"]["ws"]
-            # print(json.loads(message))
-            print(data)
             result = ""
             for i in data:
                 for w in i["cw"]:
@@ -181,7 +182,26 @@ def on_open(ws):
 
 # audio_add_list = []
 # text_add_list = []
+def write_csv_file(path, head, data):
+    try:
+        with open(path, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file, dialect='excel')
+            if head is not None:
+                writer.writerow(head)
+            for row in data:
+                writer.writerow(row)
+            print("Write a CSV file to path %s Successful." % path)
+        csv_file.close()
+    except Exception as e:
+        print("Write an CSV file to path: %s, Case: %s" % (path, e))
 
+path = os.getcwd()
+path = os.path.join(path+r"\kdxf.csv")
+
+origin_result = []
+phasevoctor_result = []
+ola_result = []
+wsola_result = []
 def kdxf_asr(audio, filename):
     global wsParam
     # APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',APISecret='0c54ef03a106903edf9b9fce4e82cbc9'
@@ -197,21 +217,31 @@ def kdxf_asr(audio, filename):
     #     for text_add in output_add_object:
     #         text_add = text_add.strip()
     #将ASR识别结果写入文件
-    with open(filename, 'a') as file_object:
-        file_object.write(result + '\n')
+    if (audio == audio_origin):
+        origin_result.append(result.lower())
+    elif (audio == audio_phasevoctor):
+        phasevoctor_result.append(result.lower())
+    elif (audio == audio_ola):
+        ola_result.append(result.lower())
+    elif (audio == audio_wsola):
+        wsola_result.append(result.lower())
+        
+    # with open(filename, 'a') as file_object:
+    #     file_object.write(result + '\n')
 
 if __name__ == "__main__":
     # 测试时候在此处正确填写相关信息即可运行
     num = 0#choose one of the ten origin speech
-    for num in range(0, 10):
-        num +=1
-        # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
-        # kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
-        # kdxf_asr(audio_origin, kdxf_asr_origin)
-        audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.mp3'
-        kdxf_asr_origin = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_origin.txt'
-        kdxf_asr(audio_origin, kdxf_asr_origin)
-        for i in np.arange(0.25, 3.0, 0.25):
+
+    for i in np.arange(0.25, 3, 0.25):
+        for num in range(0, 10):
+            num +=1
+            # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
+            # kdxf_asr_origin = 'C:/github_code/audio_tsm_test/test_result/kdxf/kdxf_origin.txt'
+            # kdxf_asr(audio_origin, kdxf_asr_origin)
+            audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.mp3'
+            kdxf_asr_origin = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_origin.txt'
+
             ### voice with wake words
             # audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
             # audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
@@ -231,43 +261,25 @@ if __name__ == "__main__":
             kdxf_asr_phasevoctor = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_phasevoctor' + str(i) + '.txt'
             kdxf_asr_ola = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_ola' + str(i) + '.txt'
             kdxf_asr_wsola = path1 + '/test_result/kdxf/16k/without_wake_words/kdxf_asr_wsola' + str(i) + '.txt'
-
+            if(i == 0.25):
+                kdxf_asr(audio_origin, kdxf_asr_origin)
             kdxf_asr(audio_phasevoctor, kdxf_asr_phasevoctor)
             kdxf_asr(audio_ola, kdxf_asr_ola)
             kdxf_asr(audio_wsola, kdxf_asr_wsola)
-    # input_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/input_add.txt'
-    # output_add = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/address/output_add.txt'
-    # filename = 'C:/Users/73936/Desktop/voice_speech/test_result/kdxf/origin.txt'
-    # with open(input_add) as input_add_object:
-    #     for audio_add in input_add_object:
-    #         audio_add = audio_add.strip()
-    #         audio_add_list.append(audio_add)
-    # # a = len(audio_add_list)
-    # with open(output_add) as output_add_object:
-    #     for text_add in output_add_object:
-    #         text_add = text_add.strip()
-    #         text_add_list.append(text_add)
-    # b = len(text_add_list)#choose one of the output file address
-    # print(a)
-    # print(b)
-    # print(text_add_list[1])
-    # for a in range(0,len(audio_add_list)):
-    #     for num in range(0,10):
-    #         num +=1
-            # wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
-            #         APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
-            #         AudioFile= audio_add_list[a] + str(num) +'.wav')
-            # websocket.enableTrace(False)
-            # wsUrl = wsParam.create_url()
-            # ws = websocket.WebSocketApp(wsUrl, on_message=on_message, on_error=on_error, on_close=on_close)
-            # ws.on_open = on_open
-            # ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
-            # # with open(output_add) as output_add_object:
-            # #     for text_add in output_add_object:
-            # #         text_add = text_add.strip()
-            # with open(text_add_list[a], 'a') as file_object:
-            #     file_object.write(result + '\n')
-        # a +=1
+        if(i==0.25):
+            write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],np.array([ola_result,phasevoctor_result,ola_result,wsola_result]).T)
+            df = pd.read_csv(path,error_bad_lines=False)
+            print("write successfully!" + str(i))
+        else:
+            df["phasevoctor"+str(i)] = phasevoctor_result
+            df["ola"+str(i)] = ola_result
+            df["wsola"+str(i)] = wsola_result
+            df.to_csv(path, mode ='w', index=False)
+            print("write successfully!" + str(i))
+        origin_result.clear()
+        phasevoctor_result.clear()
+        ola_result.clear()
+        wsola_result.clear()
     print('successfully')
              
         

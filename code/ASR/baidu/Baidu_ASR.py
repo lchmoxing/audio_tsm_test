@@ -6,6 +6,8 @@ import json
 import time
 import ast
 import numpy as np
+import pandas as pd
+import csv
 from jiwer import wer
 
 IS_PY3 = sys.version_info.major == 3
@@ -18,16 +20,16 @@ if IS_PY3:
     from urllib.request import urlopen
     from urllib.request import Request
 
-    from urllib.error import URLError
+    from urllib.error import HTTPError
     from urllib.parse import urlencode
 
     timer = time.perf_counter
 else:
-    import urllib2
-    from urllib2 import urlopen
-    from urllib2 import Request
-    from urllib2 import URLError
-    from urllib import urlencode
+    import urllib.request
+    from urllib.request import urlopen
+    from urllib.request import Request
+    from urllib.request import HTTPError
+    from urllib.parse import urlencode
 
     if sys.platform == "win32":
         timer = time.clock
@@ -35,10 +37,10 @@ else:
         # On most other platforms the best timer is time.time()
         timer = time.time
 
-API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
-SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
-# API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
-# SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
+# API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
+# SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
+API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
+SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
 
 # # 需要识别的文件
 AUDIO_FILE = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(1) +'.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
@@ -78,7 +80,7 @@ def fetch_token():
     try:
         f = urlopen(req)
         result_str = f.read()
-    except URLError as err:
+    except HTTPError as err:
         # print('token http response http code : ' + str(err.code))
         result_str = err.read()
     if (IS_PY3):
@@ -98,6 +100,25 @@ def fetch_token():
 
 """  TOKEN end """
 
+def write_csv_file(path, head, data):
+    try:
+        with open(path, 'a', newline='') as csv_file:
+            writer = csv.writer(csv_file, dialect='excel')
+            if head is not None:
+                writer.writerow(head)
+            for row in data:
+                writer.writerow(row)
+            print("Write a CSV file to path %s Successful." % path)
+        csv_file.close()
+    except Exception as e:
+        print("Write an CSV file to path: %s, Case: %s" % (path, e))
+
+path = os.getcwd()
+path = os.path.join(path+r"\baidu.csv")
+origin_result = []
+phasevoctor_result = []
+ola_result = []
+wsola_result = []
 def baidu_asr(AUDIO_FILE, TEXT_FILE):
     token = fetch_token()
 
@@ -134,7 +155,7 @@ def baidu_asr(AUDIO_FILE, TEXT_FILE):
         f = urlopen(req)
         result_str = f.read()
         # print("Request time cost %f" % (timer() - begin))
-    except  URLError as err:
+    except  HTTPError as err:
         # print('asr http response http code : ' + str(err.code))
         result_str = err.read()
 
@@ -148,25 +169,33 @@ def baidu_asr(AUDIO_FILE, TEXT_FILE):
             result_text = str(result_str["result"])
             result_text = result_text.replace('[','').replace(']','').replace('\'','')
             print(result_text)
-            with open(TEXT_FILE, "a") as file_object:
-                 file_object.write(result_text + '\n')
+            # with open(TEXT_FILE, "a") as file_object:
+            #      file_object.write(result_text + '\n')
         else:
             print("error")
-            with open(TEXT_FILE, "a") as file_object:
-                 file_object.write("error!" + str(result_str["err_no"]) + '\n')
+            result_text = 'error'
+        if (AUDIO_FILE == audio_origin):
+            origin_result.append(result_text.lower())
+        elif (AUDIO_FILE == audio_phasevoctor):
+            phasevoctor_result.append(result_text.lower())
+        elif (AUDIO_FILE == audio_ola):
+            ola_result.append(result_text.lower())
+        elif (AUDIO_FILE == audio_wsola):
+            wsola_result.append(result_text.lower())
+            # with open(TEXT_FILE, "a") as file_object:
+            #      file_object.write("error!" + str(result_str["err_no"]) + '\n')
 
 num = 0
-for num in range(0, 10):
-    num +=1
-    ### voice with wake words
-    # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
-    # baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
-    ### voice without wake words
-    print(os.path.abspath(os.path.dirname(sys.argv[0])))
-    audio_origin = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
-    baidu_asr_origin = path1 + '/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
-    baidu_asr(audio_origin, baidu_asr_origin)
-    for i in np.arange(0.25, 3.0, 0.25):
+for i in np.arange(0.25, 3.0, 0.25):
+    for num in range(0, 10):
+        num +=1
+        ### voice with wake words
+        # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
+        # baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
+        ### voice without wake words
+        # print(os.path.abspath(os.path.dirname(sys.argv[0])))
+        audio_origin = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
+        baidu_asr_origin = path1 + '/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
         # ### voice with wake words
         # audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
         # audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
@@ -184,7 +213,23 @@ for num in range(0, 10):
         baidu_asr_phasevoctor = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
         baidu_asr_ola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
         baidu_asr_wsola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
+        if(i == 0.25):
+            baidu_asr(audio_origin, baidu_asr_origin)
         baidu_asr(audio_phasevoctor, baidu_asr_phasevoctor)
         baidu_asr(audio_ola, baidu_asr_ola)
         baidu_asr(audio_wsola, baidu_asr_wsola)
+    if(i==0.25):
+        write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],np.array([ola_result,phasevoctor_result,ola_result,wsola_result]).T)
+        df = pd.read_csv(path,error_bad_lines=False)
+        print("write successfully!" + str(i))
+    else:
+        df["phasevoctor"+str(i)] = phasevoctor_result
+        df["ola"+str(i)] = ola_result
+        df["wsola"+str(i)] = wsola_result
+        df.to_csv(path, mode ='w', index=False)
+        print("write successfully!" + str(i))
+    origin_result.clear()
+    phasevoctor_result.clear()
+    ola_result.clear()
+    wsola_result.clear()
 print("successfully")
