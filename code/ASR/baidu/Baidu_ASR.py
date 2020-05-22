@@ -11,6 +11,7 @@ import csv
 from jiwer import wer
 
 IS_PY3 = sys.version_info.major == 3
+
 path =os.path.abspath('..')
 path =os.path.dirname(path)
 path1 =os.path.dirname(path)
@@ -106,20 +107,15 @@ def write_csv_file(path, head, data):
             writer = csv.writer(csv_file, dialect='excel')
             if head is not None:
                 writer.writerow(head)
-            for row in data:
-                writer.writerow(row)
+            # for row in data:
+            writer.writerows(zip(*data))
             print("Write a CSV file to path %s Successful." % path)
         csv_file.close()
     except Exception as e:
         print("Write an CSV file to path: %s, Case: %s" % (path, e))
 
-path = os.getcwd()
-path = os.path.join(path+r"\baidu.csv")
-origin_result = []
-phasevoctor_result = []
-ola_result = []
-wsola_result = []
-def baidu_asr(AUDIO_FILE, TEXT_FILE):
+
+def baidu_asr(AUDIO_FILE):
     token = fetch_token()
 
     """
@@ -184,52 +180,49 @@ def baidu_asr(AUDIO_FILE, TEXT_FILE):
             wsola_result.append(result_text.lower())
             # with open(TEXT_FILE, "a") as file_object:
             #      file_object.write("error!" + str(result_str["err_no"]) + '\n')
+test_num =5
+for k in range(0,test_num):
+    path = os.getcwd()
+    path = os.path.join(path+r"\baidu" + str(k)+ ".csv")
+    origin_result = []
+    phasevoctor_result = []
+    ola_result = []
+    wsola_result = []
+    num = 0
+    for i in np.arange(0.25, 3, 0.25):
+        for num in range(0, 10):
+            num +=1
 
-num = 0
-for i in np.arange(0.25, 3.0, 0.25):
-    for num in range(0, 10):
-        num +=1
-        ### voice with wake words
-        # audio_origin = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
-        # baidu_asr_origin = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_origin.txt'
-        ### voice without wake words
-        # print(os.path.abspath(os.path.dirname(sys.argv[0])))
-        audio_origin = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(num) +'.wav'
-        baidu_asr_origin = path1 + '/test_result/baidu/16k/without_wake_words/baidu_origin.txt'
-        # ### voice with wake words
-        # audio_phasevoctor = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        # audio_ola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/ola' + str(i) + '_' + str(num) +'.wav'
-        # audio_wsola = 'C:/github_code/audio_tsm_test/dataset/march_speech_tsm/wsola' + str(i) + '_' + str(num) +'.wav'
+            ### voice with wake words
+            audio_origin = path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.wav'
+            audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+            audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'   
+            
+            ### voice without wake words
+            # audio_origin = path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.wav
+            # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+            # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
 
-        # baidu_asr_phasevoctor = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_asr_phasevoctor' + str(i) + '.txt'
-        # baidu_asr_ola = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_asr_ola' + str(i) + '.txt'
-        # baidu_asr_wsola = 'C:/github_code/audio_tsm_test/test_result/baidu/baidu_asr_wsola' + str(i) + '.txt'       
-        
-        ### voice without wake words
-        audio_phasevoctor = path1 + '/dataset/16k/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        audio_ola = path1 + '/dataset/16k/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-        audio_wsola = path1 + '/dataset/16k/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
-
-        baidu_asr_phasevoctor = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_phasevoctor' + str(i) + '.txt'
-        baidu_asr_ola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_ola' + str(i) + '.txt'
-        baidu_asr_wsola = path1 + '/test_result/baidu/16k/without_wake_words/baidu_asr_wsola' + str(i) + '.txt'  
-        if(i == 0.25):
-            baidu_asr(audio_origin, baidu_asr_origin)
-        baidu_asr(audio_phasevoctor, baidu_asr_phasevoctor)
-        baidu_asr(audio_ola, baidu_asr_ola)
-        baidu_asr(audio_wsola, baidu_asr_wsola)
-    if(i==0.25):
-        write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],np.array([ola_result,phasevoctor_result,ola_result,wsola_result]).T)
-        df = pd.read_csv(path,error_bad_lines=False)
-        print("write successfully!" + str(i))
-    else:
-        df["phasevoctor"+str(i)] = phasevoctor_result
-        df["ola"+str(i)] = ola_result
-        df["wsola"+str(i)] = wsola_result
-        df.to_csv(path, mode ='w', index=False)
-        print("write successfully!" + str(i))
-    origin_result.clear()
-    phasevoctor_result.clear()
-    ola_result.clear()
-    wsola_result.clear()
+            if(i == 0.25):
+                baidu_asr(audio_origin)        
+            baidu_asr(audio_phasevoctor)
+            baidu_asr(audio_ola)
+            baidu_asr(audio_wsola)
+        if(i==0.25):
+            write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],[origin_result,phasevoctor_result,ola_result,wsola_result])
+            df = pd.read_csv(path,error_bad_lines=False)
+            print("write successfully!" + str(i))
+        else:
+            df["phasevoctor"+str(i)] = pd.Series(phasevoctor_result)
+            df["ola"+str(i)] = pd.Series(ola_result)
+            df["wsola"+str(i)] = pd.Series(wsola_result)
+            df.to_csv(path, mode ='w', index=False)#csv文件不加行号
+            print(str(i) + "successfully!")
+        origin_result.clear()
+        phasevoctor_result.clear()
+        ola_result.clear()
+        wsola_result.clear()
+    print(str(k) + "write")
 print("successfully")

@@ -5,8 +5,9 @@ import numpy as np
 import pandas as pd
 from jiwer import wer
 
-path = os.path.dirname(os.path.abspath('..'))
-baidu_text_path = path + '/test_result/baidu.csv'
+# path = os.path.dirname(os.path.abspath('..')) 
+path = os.getcwd()
+baidu_text_path = path + '/baidu2.csv'
 all_txt = pd.read_csv(baidu_text_path)
 origin_text = all_txt['origin']
 result_text = all_txt.drop(['origin'],axis=1)
