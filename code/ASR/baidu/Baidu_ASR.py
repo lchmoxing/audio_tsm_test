@@ -38,10 +38,10 @@ else:
         # On most other platforms the best timer is time.time()
         timer = time.time
 
-# API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
-# SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
-API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
-SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
+API_KEY = 'gvdGH9Suir9sQ6ChtPVvWQhN'   
+SECRET_KEY = 'I053HzhvDRvDmqpx4mEBPuqG6UesSRZv'
+# API_KEY = 'T5sA7FUN2803vZfVURRG8Fz0'   
+# SECRET_KEY = 'KHG7i6cS8Dksy2oSIDSGl0k1rHbC1L8L'
 
 # # 需要识别的文件
 AUDIO_FILE = path1 + '/dataset/speech_origin/without_wake_words/16k/' + str(1) +'.wav'  # 只支持 pcm/wav/amr 格式，极速版额外支持m4a 格式
@@ -180,10 +180,10 @@ def baidu_asr(AUDIO_FILE):
             wsola_result.append(result_text.lower())
             # with open(TEXT_FILE, "a") as file_object:
             #      file_object.write("error!" + str(result_str["err_no"]) + '\n')
-test_num =5
+test_num =10
 for k in range(0,test_num):
     path = os.getcwd()
-    path = os.path.join(path+r"\baidu" + str(k)+ ".csv")
+    path = os.path.join(path+r"\baidu_without_wake_words" + str(k)+ ".csv")
     origin_result = []
     phasevoctor_result = []
     ola_result = []
@@ -194,16 +194,16 @@ for k in range(0,test_num):
             num +=1
 
             ### voice with wake words
-            audio_origin = path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.wav'
-            audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-            audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-            audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'   
+            # audio_origin = path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.wav'
+            # audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            # audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+            # audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'   
             
             ### voice without wake words
-            # audio_origin = path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.wav
-            # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-            # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-            # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
+            audio_origin = path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
+            audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+            audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
+            audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
 
             if(i == 0.25):
                 baidu_asr(audio_origin)        

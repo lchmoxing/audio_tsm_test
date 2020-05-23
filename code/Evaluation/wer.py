@@ -3,10 +3,12 @@ import os
 import numpy as np
 import pandas as pd
 
-filename = r'C:\github_code\audio_tsm_test\code\ASR\kdxf\kdxf2.csv'
-path = r'C:\github_code\audio_tsm_test\code\ASR\kdxf\kdxf3.csv'
-data = pd.read_csv(filename)
-ground_truth = data['ground_truth'].tolist()
+# filename = r'C:\github_code\audio_tsm_test\code\ASR\kdxf\kdxf2.csv'
+# path = r'C:\github_code\audio_tsm_test\code\ASR\kdxf\kdxf3.csv'
+path = os.getcwd()
+baidu_text_path = path + '/baidu1.csv'
+data = pd.read_csv(baidu_text_path)
+ground_truth = data['origin'].tolist()
 # print(data['ground_truth'].tolist())
 # ola = data['ola0.25'].tolist()
 
@@ -18,8 +20,8 @@ for i in data:
         error = wer(m, n)
         asr_wer.append(error)
         print(error)
-    df[i] = asr_wer
-    df.to_csv(path, mode = 'a', index = False)
+    result[i] = asr_wer
+    result.to_csv("./wer1.csv", mode = 'a', index = False)
     asr_wer.clear()
 # print(data['origin'])
 # print(type(data['origin']))

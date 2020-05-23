@@ -220,11 +220,11 @@ def kdxf_asr(audio):
         
     # with open(filename, 'a') as file_object:
     #     file_object.write(result + '\n')
-test_num = 5
+test_num = 10
 if __name__ == "__main__":
     for k in range(0,test_num):
         path = os.getcwd()
-        path = os.path.join(path+r"\kdxf" + str(k) + ".csv")
+        path = os.path.join(path+r"\kdxf_without_wake_words" + str(k) + ".csv")
         origin_result = []
         phasevoctor_result = []
         ola_result = []
@@ -233,17 +233,17 @@ if __name__ == "__main__":
         for i in np.arange(0.25, 3, 0.25):
             for num in range(0, 10):
                 num +=1
-                ### voice without wake words
-                audio_origin =  path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
-                audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-                audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-                audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+                ### voice with wake words
+                # audio_origin =  path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
+                # audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+                # audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+                # audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
         
                 ### voice without wake words
-                # audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
-                # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-                # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-                # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+                audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
+                audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+                audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+                audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
 
                 if(i == 0.25):
                     kdxf_asr(audio_origin)
