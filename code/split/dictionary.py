@@ -1,16 +1,26 @@
 import os
-import sys
 import cmudict
 import pandas as pd
+import nltk
 
-
-path = os.path.dirname(os.path.abspath('..'))
-text_path = path + '/dataset/text/textwithwakewords.txt'
-print(text_path)
-all_txt = pd.read_table(text_path,header=None)
-print(all_txt)
-
+nltk.download('punkt')
 
 prondict = cmudict.dict()
-result = prondict['speech']
-print(result)
+path = os.path.dirname(os.path.abspath('..'))
+text_path = path + '/dataset/speech_origin/text/textwithwakewords.txt'
+
+all_txt = pd.read_table(text_path,header=None)
+#print(all_txt)
+
+#tokenize = lambda x: nltk.word_tokenize[x]
+#all_txt['split'] = all_txt(tokenize)
+#print(all_txt)
+#result = prondict['speech']
+test_txt = 'Okay Google, navigate to my home'
+test_txt_revise = test_txt.replace(",",'')
+split_result =  nltk.word_tokenize(test_txt_revise)
+print(split_result)
+for i in range(len(split_result)):
+    split_result[i] =  prondict[split_result[i].lower()]
+
+print(split_result)
