@@ -1,8 +1,17 @@
+###pip install librosa
+###pip install --ignore-installed llvmlite
+###cannot import name 'comb'解决方法：
+###修改lib\site-packages\sklearn\model_selection\_split.py中from scipy.misc import comb为from scipy.special import comb
+###修改lib\site-packages\sklearn\metrics\cluster\supervised.py中from scipy.misc import comb为from scipy.special import comb
 import librosa
 import librosa.display
+import matplotlib
 import matplotlib.pyplot as plt
 from dtw import dtw
 from numpy.linalg import norm
+
+y1, sr1 = librosa.load('C:/Users/73936/Desktop/voice_speech/dataset/1.wav')
+y2, sr2 = librosa.load('C:/Users/73936/Desktop/voice_speech/dataset/ola0.5_1.wav')
 import os
 
 #Loading audio files
@@ -17,19 +26,18 @@ audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor'
 y1, sr1 = librosa.load(audio_origin) 
 y2, sr2 = librosa.load(audio_phasevoctor) 
 
-#Showing multiple plots using subplot
-plt.subplot(1, 2, 1) 
-mfcc1 = librosa.feature.mfcc(y1,sr1)   #Computing MFCC values
+plt.subplot(1, 3, 1)
+mfcc1 = librosa.feature.mfcc(y1, sr1)
 librosa.display.specshow(mfcc1)
-
-plt.subplot(1, 2, 2)
+plt.subplot(1, 3, 2)
 mfcc2 = librosa.feature.mfcc(y2, sr2)
 librosa.display.specshow(mfcc2)
 
-dist, cost, path = dtw(mfcc1.T, mfcc2.T)
-print("The normalized distance between the two : ",dist)   # 0 for similar audios 
-
-plt.imshow(cost.T, origin='lower', cmap=plt.get_cmap('gray'), interpolation='nearest')
-plt.plot(path[0], path[1], 'w')   #creating plot for DTW
-
-plt.show()  #To display the plots graphically
+dist, cost, acc_cost, path = dtw(mfcc1.T, mfcc2.T, dist=lambda x, y: norm(x - y, ord=1))
+print('Normalized distance between the two sounds:', dist)
+plt.subplot(1, 3, 3)
+plt.imshow(cost.T, origin='lower', cmap='gray', interpolation='nearest')
+plt.plot(path[0], path[1], 'w')
+plt.xlim((-0.5, cost.shape[0]-0.5))
+plt.ylim((-0.5, cost.shape[1]-0.5))
+plt.show()
