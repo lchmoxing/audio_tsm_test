@@ -18,11 +18,26 @@ def split_tran(txt):
         split_result[i] = prondict[split_result[i].lower()]
     return split_result
 
+all_txt = pd.read_csv(text_path)
+name = list(all_txt.columns.values)
+df = pd.DataFrame(columns = name)
 
+tran_tmp = []
+for index, row in all_txt.iteritems():
+    for i in range(len(row)):
+        if row[i] != 'error':
+            tran_tmp.append(split_tran(row[i]))
+        else:
+            tran_tmp.append('')
+    df[index] = tran_tmp
+    tran_tmp = []
+df.to_excel("tran_0.xlsx")
 
-all_txt = pd.read_table(text_path)
-#all_txt.columns = ['origin']
-print(all_txt)
+'''
+for index, row in all_txt.iteritems():
+    if row[count] != "error":
+        tran_tmp.append(split_tran(row['origin']))
+'''
 '''
 tran = []
 for index, row in all_txt.iterrows():
