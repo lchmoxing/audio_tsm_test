@@ -33,3 +33,5 @@ for i in range(len(split_result)):
     split_result[i] =  prondict[split_result[i].lower()]
 print(split_result)
 '''
+
+print(prondict['i'])
