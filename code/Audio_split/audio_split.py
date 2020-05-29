@@ -6,7 +6,7 @@ import numpy as np
 
 path = os.path.dirname(os.path.abspath('.'))
 ffmpeg_path = path + '/third_party/ffmpeg/ffmpeg-20200218-ebee808-win64-static/bin/ffmpeg.exe'
-file_test = './ola0.5_1.wav'
+file_test = './ola1.0_1.wav'
 CutTimeDef = 0.1
 
 def CutFile(file):
