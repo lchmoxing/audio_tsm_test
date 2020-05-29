@@ -29,7 +29,7 @@ def CutFile(file):
     print(np.shape(wave_data))
   #  wave_data.shape = -1, 2
    # print(np.shape(wave_data))
-   # wave_data = wave_data.T
+    wave_data = wave_data.T
     temp_data = wave_data.T
     print(np.shape(temp_data))
  #   StepNum = int(CutFrameNum/2)
