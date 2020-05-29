@@ -26,9 +26,13 @@ def CutFile(file):
     f.close()  # 将波形数据转换成数组
 
     wave_data = np.fromstring(str_data, dtype=np.short)
-    wave_data.shape = -1, 2
-    wave_data = wave_data.T
+    print(np.shape(wave_data))
+  #  wave_data.shape = -1, 2
+   # print(np.shape(wave_data))
+   # wave_data = wave_data.T
     temp_data = wave_data.T
+    print(np.shape(temp_data))
+ #   StepNum = int(CutFrameNum/2)
     StepNum = CutFrameNum
     StepTotalNum = 0;
     count = 0
