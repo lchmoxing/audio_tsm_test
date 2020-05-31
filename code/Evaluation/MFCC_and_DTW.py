@@ -15,7 +15,6 @@ import pandas as pd
 import os
 
 #Loading audio files
-print(os.getcwd())
 path =os.path.abspath('..')
 path =os.path.dirname(path)
 print(path) 
@@ -58,9 +57,9 @@ for num in range(1, 11):
 pdf0 = pd.DataFrame({"speed" : speed})
 odf0 = pd.DataFrame({"speed" : speed})
 wdf0 = pd.DataFrame({"speed" : speed})
-pdf = pd.concat([pdf0, pdf1,pdf2,pdf3,pdf4,pdf5,pdf6,pdf7,pdf8,pdf9,pdf10], axis =1 )
-odf = pd.concat([odf0, odf1,odf2,odf3,odf4,odf5,odf6,odf7,odf8,odf9,odf10], axis =1 )
-wdf = pd.concat([wdf0, wdf1,wdf2,wdf3,wdf4,wdf5,wdf6,wdf7,wdf8,wdf9,wdf10], axis =1 )
+pdf = pd.concat([pdf0,pdf1,pdf2,pdf3,pdf4,pdf5,pdf6,pdf7,pdf8,pdf9,pdf10], axis =1 )
+odf = pd.concat([odf0,odf1,odf2,odf3,odf4,odf5,odf6,odf7,odf8,odf9,odf10], axis =1 )
+wdf = pd.concat([wdf0,wdf1,wdf2,wdf3,wdf4,wdf5,wdf6,wdf7,wdf8,wdf9,wdf10], axis =1 )
 # ### audio without wake words
 # pdf.to_csv(path + "/dataset/wo_phasevoctor_mfcc.csv", index=False)
 # odf.to_csv(path + "/dataset/wo_ola_mfcc.csv", index=False)
