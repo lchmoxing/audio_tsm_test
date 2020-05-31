@@ -9,11 +9,11 @@ for num  in range(9,10):
     # output_phasevoctor_one = 'C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.0_' + str(num) +'.wav'
     # output_phasevoctor_oneandhalf = 'C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.5_' + str(num) +'.wav'
     # output_phasevoctor_twice = 'C:/Users/73936/Desktop/voice_speech/databset/phasevoctor2.0_' + str(num) +'.wav'
-    for i in np.arange(1.0, 1.5, 0.05):
+    for i in np.arange(0.5, 1.5, 0.05):
         input_filename = 'D:/github/audio_tsm_test/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
-        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        output_ola = 'D:/github/audio_tsm_test/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
-        output_wsola = 'D:/github/audio_tsm_test/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'
+        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/dataset531/phasevoctor' + str(i) + '_' + str(num) +'.wav'
+        output_ola = 'D:/github/audio_tsm_test/dataset/dataset531/ola' + str(i) + '_' + str(num) +'.wav'
+        output_wsola = 'D:/github/audio_tsm_test/dataset/dataset531/wsola' + str(i) + '_' + str(num) +'.wav'
         with WavReader(input_filename) as reader:
             print(num)
             print(i)
