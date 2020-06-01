@@ -36,7 +36,7 @@ def CutFile(countNum,file_test):
     StepNum = CutFrameNum
     StepTotalNum = 0;
     count = 0
-    result_dir = os.getcwd() +'/split_result'
+    result_dir = os.getcwd() +'/split_result/' + str(countNum)
     if not os.path.exists(result_dir):
         os.mkdir(result_dir)
     while StepTotalNum < nframes:

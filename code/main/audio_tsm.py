@@ -3,12 +3,14 @@ from audiotsm.io.wav import WavReader, WavWriter
 import numpy as np
 import os
 
-def f_phasevoctor(input_filename,i):
-    dir = os.getcwd() + '/phasevoctor'
-#    print(dir)
+def f_phasevoctor(input_filename,i, tsm_dir):
+    dir = tsm_dir + '/phasevoctor'
+  #  print(dir)
     if not os.path.exists(dir):
         os.mkdir(dir)
-    output_phasevoctor = './phasevoctor/' + str(i) + '.wav'
+    i = round(i,2)
+    output_phasevoctor = dir + '/' + str(i) + '.wav'
+  #  print(output_phasevoctor)
     with WavReader(input_filename) as reader:
 #        print(i)
         with WavWriter(output_phasevoctor, reader.channels, reader.samplerate) as writer_phase:
@@ -16,22 +18,24 @@ def f_phasevoctor(input_filename,i):
             tsm.run(reader, writer_phase)
     print("PVTSM Run Over")
 
-def f_ola(input_filename,i):
-    dir = os.getcwd() +'/ola'
+def f_ola(input_filename,i, tsm_dir):
+    dir = tsm_dir +'/ola'
     if not os.path.exists(dir):
         os.mkdir(dir)
-    output_ola = './ola/' + str(i) + '.wav'
+    i = round(i,2)
+    output_ola = dir + '/' + str(i) + '.wav'
     with WavReader(input_filename) as reader:
 #        print(i)
         with WavWriter(output_ola, reader.channels, reader.samplerate) as writer_ola:
             tsm = ola(reader.channels, speed=i)
             tsm.run(reader, writer_ola)
 
-def f_wsola(input_filename,i):
-    dir = os.getcwd() +'/wsola'
-    if not os.path.exists(dirs):
+def f_wsola(input_filename,i,tsm_dir):
+    dir = tsm_dir +'/wsola'
+    if not os.path.exists(dir):
         os.mkdir(dir)
-    output_wsola = './wsola/' + str(i) + '.wav'
+    i = round(i,2)
+    output_wsola = dir + '/'  + str(i) + '.wav'
     with WavReader(input_filename) as reader:
 #        print(i)
         with WavWriter(output_wsola, reader.channels, reader.samplerate) as writer_wsola:

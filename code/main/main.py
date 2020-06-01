@@ -17,7 +17,8 @@ origin_file_list = os.listdir(origin_file_dir)
 # without_wake_words
 #origin_file_dir = path2 + '/document/speech_origin/without_wake_words/'
 
-split_file_dir = path + '/result/'
+split_file_dir = path + '/split_result/'
+print(split_file_dir)
 join_file_path= path + '/join1.wav'
 
 
@@ -29,10 +30,21 @@ if __name__ == '__main__':
             audio_split.CutFile(countNum, wav_tmp_path)
             countNum += 1
 
-    tsm_start = 0.75
-    tsm_end = 1.5
-    tsm_step = 0.25
-#    for i in np.arange( tsm_start, tsm_end, tsm_step):
+    tsm_start = 0.8
+    tsm_end = 1.2
+    tsm_step = 0.05
+    for i in range(0,countNum):
+        tsm_dir = split_file_dir + '/' + str(i)
+        print(tsm_dir)
+        for j in range(1, len(os.listdir(tsm_dir))):
+            # if j % 4 == 0:
+            #     print(j)
+                for k in np.arange( tsm_start, tsm_end, tsm_step):
+                    tsmtmp_wav = tsm_dir + '/' + str(i) + '_' + str(j) +'.wav'
+                    audio_tsm.f_phasevoctor(tsmtmp_wav, k, tsm_dir)
+                    audio_tsm.f_ola(tsmtmp_wav, k, tsm_dir)
+                    audio_tsm.f_wsola(tsmtmp_wav, k, tsm_dir)
+
 
     #     audio_tsm.f_phasevoctor(file_test, i)
     # file_test = './ola1.0_1.wav'
