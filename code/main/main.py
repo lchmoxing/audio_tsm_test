@@ -35,8 +35,13 @@ if __name__ == '__main__':
     tsm_step = 0.05
     for i in range(0,countNum):
         tsm_dir = split_file_dir + '/' + str(i)
-        print(tsm_dir)
-        for j in range(1, len(os.listdir(tsm_dir))):
+        # print(tsm_dir)
+        count_wav = 0
+        for wav in tsm_dir:
+            if '.wav' in wav:
+                count_wav += 1
+        print(count_wav)
+        for j in range(1, count_wav):
             # if j % 4 == 0:
             #     print(j)
                 for k in np.arange( tsm_start, tsm_end, tsm_step):
