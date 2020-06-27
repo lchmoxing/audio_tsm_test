@@ -11,10 +11,10 @@ for num  in range(0,10):
     # output_phasevoctor_twice = 'C:/Users/73936/Desktop/voice_speech/databset/phasevoctor2.0_' + str(num) +'.wav'
     for i in np.arange(0.8, 1.2, 0.01):
         i = round(i,2)
-        input_filename = 'D:/github/audio_tsm_test/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
-        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/dataset61/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-        output_ola = 'D:/github/audio_tsm_test/dataset/dataset61/ola' + str(i) + '_' + str(num) +'.wav'
-        output_wsola = 'D:/github/audio_tsm_test/dataset/dataset61/wsola' + str(i) + '_' + str(num) +'.wav'
+        input_filename = 'D:/github/audio_tsm_test/dataset/liandu/' + str(num) +'.wav'
+        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/liandu/phasevoctor/' + str(i) + '_' + str(num) +'.wav'
+        output_ola = 'D:/github/audio_tsm_test/dataset/liandu/ola/' + str(i) + '_' + str(num) +'.wav'
+        output_wsola = 'D:/github/audio_tsm_test/dataset/liandu/wsola/' + str(i) + '_' + str(num) +'.wav'
         with WavReader(input_filename) as reader:
             print(num)
             print(i)
