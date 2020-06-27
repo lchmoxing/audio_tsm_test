@@ -194,7 +194,7 @@ def write_csv_file(path, head, data):
         print("Write an CSV file to path: %s, Case: %s" % (path, e))
 
 path = os.getcwd()
-path = os.path.join(path+r"\kdxf1.csv")
+path = os.path.join(path+r"\kdxf_61.csv")
 
 origin_result = []
 phasevoctor_result = []
@@ -215,55 +215,61 @@ def kdxf_asr(audio):
     #     for text_add in output_add_object:
     #         text_add = text_add.strip()
     #将ASR识别结果写入文件
-    if (audio == audio_origin):
-        origin_result.append(result.lower())
-    elif (audio == audio_phasevoctor):
-        phasevoctor_result.append(result.lower())
-    elif (audio == audio_ola):
-        ola_result.append(result.lower())
-    elif (audio == audio_wsola):
-        wsola_result.append(result.lower())
+    # if (audio == audio_origin):
+    #     origin_result.append(result.lower())
+    # elif (audio == audio_phasevoctor):
+    #     phasevoctor_result.append(result.lower())
+    # elif (audio == audio_ola):
+    #     ola_result.append(result.lower())
+    # elif (audio == audio_wsola):
+    #     wsola_result.append(result.lower())
         
     # with open(filename, 'a') as file_object:
     #     file_object.write(result + '\n')
 
 if __name__ == "__main__":
     # 测试时候在此处正确填写相关信息即可运行
-    num = 0#choose one of the ten origin speech
+    audio_origin = r"D:\github\audio_tsm_test\dataset\speech_split_tsm_join\1\join.mp3"
+    kdxf_asr(audio_origin)
+    # num = 0#choose one of the ten origin speech
 
-    for i in np.arange(0.25, 3, 0.25):
-        for num in range(0, 10):
-            num +=1
-            ### voice without wake words
-            audio_origin =  path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
-            audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-            audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-            audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+    # for i in np.arange(0.8, 1.2, 0.01):
+    #     i = round(i,2)
+    #     for num in range(0, 10):
+    #         num +=1
+    #         ### voice without wake words
+    #         audio_origin =  path1 + '/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
+    #         # audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+    #         # audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+    #         # audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+    #         audio_phasevoctor = path1 + '/dataset/dataset61/MP3/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+    #         audio_ola = path1 + '/dataset/dataset61/MP3/ola' + str(i) + '_' + str(num) +'.mp3'
+    #         audio_wsola = path1 + '/dataset/dataset61/MP3/wsola' + str(i) + '_' + str(num) +'.mp3'
        
-            ### voice without wake words
-            # audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
-            # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
-            # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
-            # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
+    #         ### voice without wake words
+    #         # audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
+    #         # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
+    #         # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
+    #         # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
 
-            if(i == 0.25):
-                kdxf_asr(audio_origin)
-            kdxf_asr(audio_phasevoctor)
-            kdxf_asr(audio_ola)
-            kdxf_asr(audio_wsola)
-        if(i==0.25):
-            write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],[origin_result,phasevoctor_result,ola_result,wsola_result])
-            df = pd.read_csv(path,error_bad_lines=False)
-        else:
-            df["phasevoctor"+str(i)] = pd.Series(phasevoctor_result)
-            df["ola"+str(i)] = pd.Series(ola_result)
-            df["wsola"+str(i)] = pd.Series(wsola_result)
-            df.to_csv(path, mode ='w', index=False)#csv文件不加行号
-            print("write successfully!" + str(i))
-        origin_result.clear()
-        phasevoctor_result.clear()
-        ola_result.clear()
-        wsola_result.clear()
-    print('successfully')
+    #         if(i == 0.8):
+    #             kdxf_asr(audio_origin)
+    #         kdxf_asr(audio_phasevoctor)
+    #         kdxf_asr(audio_ola)
+    #         kdxf_asr(audio_wsola)
+    #     if(i==0.8):
+    #         write_csv_file(path,["origin","phasevoctor"+str(i),"ola"+str(i),"wsola"+str(i)],[origin_result,phasevoctor_result,ola_result,wsola_result])
+    #         df = pd.read_csv(path,error_bad_lines=False)
+    #     else:
+    #         df["phasevoctor"+str(i)] = pd.Series(phasevoctor_result)
+    #         df["ola"+str(i)] = pd.Series(ola_result)
+    #         df["wsola"+str(i)] = pd.Series(wsola_result)
+    #         df.to_csv(path, mode ='w', index=False)#csv文件不加行号
+    #         print("write successfully!" + str(i))
+    #     origin_result.clear()
+    #     phasevoctor_result.clear()
+    #     ola_result.clear()
+    #     wsola_result.clear()
+    # print('successfully')
              
         

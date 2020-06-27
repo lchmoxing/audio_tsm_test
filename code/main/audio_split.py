@@ -34,7 +34,7 @@ def CutFile(countNum,file_test):
     # print(np.shape(temp_data))
  #   StepNum = int(CutFrameNum/2)
     StepNum = CutFrameNum
-    StepTotalNum = 0;
+    StepTotalNum = 0
     count = 0
     result_dir = os.getcwd() +'/split_result/' + str(countNum)
     if not os.path.exists(result_dir):
@@ -45,8 +45,8 @@ def CutFile(countNum,file_test):
         # print(FileName)
         temp_dataTemp = temp_data[StepNum*(count):StepNum*(count + 1)]
 
-        count = count + 1;
-        StepTotalNum = count * StepNum;
+        count = count + 1
+        StepTotalNum = count * StepNum
         temp_dataTemp.shape = 1, -1
         temp_dataTemp = temp_dataTemp.astype(np.short)  # 打开WAV文档
         f = wave.open(FileName, "wb")  #
