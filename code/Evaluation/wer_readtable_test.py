@@ -9,7 +9,7 @@ from jiwer import wer
 
 path = os.getcwd()
 for k in range(0,10):
-    baidu_text_path = path + '/kdxf_with_wake_words' + str(k) +'.csv'
+    baidu_text_path = path + '/baidu_with_wake_words' + str(k) +'.csv'
     all_txt = pd.read_csv(baidu_text_path)
     origin_text = all_txt['origin']
     result_text = all_txt.drop(['origin'],axis=1)

@@ -20,8 +20,8 @@ for i in data:
         error = wer(m, n)
         asr_wer.append(error)
         print(error)
-    result[i] = asr_wer
-    result.to_csv("./wer1.csv", mode = 'a', index = False)
+    df[i] = asr_wer
+    df.to_csv("./wer1.csv", mode = 'a', index = False)
     asr_wer.clear()
 # print(data['origin'])
 # print(type(data['origin']))
