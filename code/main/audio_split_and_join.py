@@ -103,13 +103,13 @@ if __name__ == '__main__':
             print(len(os.listdir(join_input_path)))
             for j in range(len(os.listdir(join_input_path))):
                 tsm_path = dst2 + '\\' + str(i) +'\\' + str(j+1) + '.wav'
-                if (j <=10):
-                    audio_tsm(ola, 0.9, tsm_path, tsm_path)
+                if (j >=20):
+                    audio_tsm(ola, random.uniform(0.95,1.05), tsm_path, tsm_path)
                     # random.randint(0,9)random.uniform(0.5,1.5)
             audio_join(join_input_path,join_output_path)
     else: 
         for i in range(1,11):
             input_path = path + '\\' + str(i) + '.wav'
             split_path = path + '\speech_split' + '\\' + str(i)
-            audio_split(input_path,50)
+            audio_split(input_path,25)
         shutil.copytree(src, dst)

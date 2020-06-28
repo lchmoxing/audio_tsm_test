@@ -7,7 +7,11 @@ import ffmpeg
 AudioSegment.converter = "C:/software/ffmpeg-20200218-ebee808-win64-static/ffmpeg-20200218-ebee808-win64-static/bin/ffmpeg.exe"
 filename = "C:/github_code/audio_tsm_test/dataset/speech_origin/text/fuyin.txt"
 # filename = "C:/Users/73936/Desktop/voice_speech/dataset/text/textwithoutwakewords.txt"
+<<<<<<< HEAD
+num = 100
+=======
 num = 1
+>>>>>>> 616f7f3bb1f515dc1e37a17d8b618ad071c550ba
 
 with open(filename) as text_object:
     for text in text_object:
@@ -19,8 +23,13 @@ with open(filename) as text_object:
         # filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/' + str(num) +'.wav'
         # filename_mp3 = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'
         # filename_wav = 'C:/Users/73936/Desktop/voice_speech/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
+<<<<<<< HEAD
+        filename_mp3 = 'D:/github/audio_tsm_test/dataset/speech_origin/with_wake_words/' + str(num) +'.mp3'
+        filename_wav = 'D:/github/audio_tsm_test/dataset/speech_origin/with_wake_words/' + str(num) +'.wav'
+=======
         filename_mp3 = 'C:/github_code/audio_tsm_test/dataset/fuyin/' + str(num) +'.mp3'
         filename_wav = 'C:/github_code/audio_tsm_test/dataset/fuyin/' + str(num) +'.wav'
+>>>>>>> 616f7f3bb1f515dc1e37a17d8b618ad071c550ba
         # ffmpeg.input('filename_mp3').output('filename_mp3', ar=16000).run()
         num +=1
         tts.save(filename_mp3)
@@ -28,9 +37,13 @@ with open(filename) as text_object:
         # tts.save('C:/Users/73936/Desktop/voice_speech/dataset/%d.mp3'%(num))
         # AudioSegment.from_mp3('C:/Users/73936/Desktop/voice_speech/dataset/%d.mp3'%(num)).export('C:/Users/73936/Desktop/voice_speech/dataset/%d.wav'%(num),format = "wav")
 # tts = gTTS('hello', lang='en')
-# tts.save('C:/Users/73936/Desktop/voice_speech/hello.mp3')
+# tts.save('C:/Users/73936/Desktop/voice_speech/hello.mp3')+++++++ 
+
+
+
 # path_file = 'C:/Users/73936/Desktop/voice_speech/hello.mp3'
 # print(path_file)
 # song = AudioSegment.from_file(path_file,format='mp3')
 # song.export('C:/Users/73936/Desktop/voice_speech/heLlo.wav', format = 'wav')
 print("The dataset has been successfully generated!")
+

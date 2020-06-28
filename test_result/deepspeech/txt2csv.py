@@ -8,7 +8,7 @@ path = sys.path[0]
 print(sys.path[0])
 # print(os.path.abspath('txt2csv.py'))
 os.chdir(sys.path[0])
-txt_path = os.getcwd() + r'\test_results61' 
+txt_path = os.getcwd() + r'\627' 
 # print(txt_path)
 txt_list = os.listdir(txt_path)
 txt_list.sort(key=lambda x: str(x[:-4])) 
@@ -24,4 +24,4 @@ for txt in txt_list:
     filename = pd.DataFrame({filename:csv_file})
     # print(filename)
     results = pd.concat([results,filename], axis =1 )
-results.to_csv(path + r"\results.csv", index=False)
+results.to_csv(path + r"\results628.csv", index=False)
