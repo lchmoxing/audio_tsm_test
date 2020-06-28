@@ -210,38 +210,40 @@ def audio_tsm(ca_type,i,input_filename,output_filename):
             tsm.run(reader, writer_tsm)
     #print("audio_tsm successfully")
 
-global combs
-def black_box_function(slot_num ,slot_array, tsm_speed):
+def black_box_function(slot_num ,tsm_speed):
     """Function with unknown internals we wish to maximize.
 
     This is just serving as an example, for all intents and
     purposes think of the internals of this function, i.e.: the process
     which generates its output values, as unknown.
     """
-
     slot_num = int(slot_num)
     tsm_speed = int(tsm_speed)
-    path1 =r"/home/usslab/qinhong/deepspeech/speech_split_tsm_join/split_origin/1"
-    join_input_path = r"/home/usslab/qinhong/deepspeech/speech_split_tsm_join/split_test/1"
+    path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture"
+    # path1 =r"/home/usslab/qinhong/deepspeech/speech_split_tsm_join/split_origin/1"
+    # join_input_path = r"/home/usslab/qinhong/deepspeech/speech_split_tsm_join/split_test/1"
     # shutil.copytree(path1, join_input_path)
     permutations = [c for c in  combinations(range(1,len(os.listdir(path1))+1), slot_num)]#排列组合的所有可能性
     combs = comb(len(os.listdir(path1)), slot_num)#排列组合的总数目
-    shutil.copytree(path1, join_input_path)
-    for n in range(slot_num):
-        j = permutations[slot_array][n]
-        tsm_path = join_input_path +'/' + str(j) + '.wav'
-        v = tsm_speed/10
-        audio_tsm(ola, v, tsm_path, tsm_path)
-    join_output_path = r"/home/usslab/qinhong/deepspeech/speech_split_tsm_join/join_result" + '/'  + str(m+1) + '.wav'
-    audio_join(join_input_path,join_output_path)
-    hypothesis = asr_deepspeech(join_output_path)
-    asr_wer = wer("target a text", hypothesis)
-    shutil.rmtree(join_input_path)
+    for m in range(int(combs)):
+        # shutil.copytree(path1, join_input_path)
+        for n in range(slot_num):
+            j = permutations[m][n]
+            tsm_in_path = path1 +'/' + str(j) + '.wav'
+            tsm_out_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/tsm/" + str(j) + '.wav'
+            v = tsm_speed/10
+            audio_tsm(ola, v, tsm_in_path, tsm_out_path)
+        join_input_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/tsm"
+        join_output_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/output/"  + str(slot_num) + '_' + str(tsm_speed) + '_'+str(m+1) + '.wav'
+        audio_join(join_input_path,join_output_path)
+        hypothesis = asr_deepspeech(join_output_path)
+        asr_wer = wer("turn", hypothesis)
+        # shutil.rmtree(join_input_path)
         # if not os.path.isdir(join_input_path):
         #     os.makedirs(join_input_path)
     return (1-asr_wer)
 # Bounded region of parameter space
-pbounds = {'slot_num': (1, 10), 'slot_array':(1,combs),'tsm_speed': (5, 15)}
+pbounds = {'slot_num': (1, 8), 'tsm_speed': (5, 15)}
 
 optimizer = BayesianOptimization( 
     f=black_box_function,

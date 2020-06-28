@@ -47,7 +47,9 @@ STATUS_LAST_FRAME = 2  # 最后一帧的标识
 path =os.path.abspath('..')
 path =os.path.dirname(path)
 path1 =os.path.dirname(path)
+path1 = 'D:/github/audio_tsm_test'
 print(path1)
+result = ""
 
 class Ws_Param(object):
     # 初始化
@@ -100,10 +102,10 @@ class Ws_Param(object):
 
 # 收到websocket消息的处理
 def on_message(ws, message):
+    # global result
     try:
         code = json.loads(message)["code"]
         sid = json.loads(message)["sid"]
-        global result
         if code != 0:
             errMsg = json.loads(message)["message"]
             print("sid:%s call error:%s code is:%s" % (sid, errMsg, code))
@@ -203,8 +205,8 @@ wsola_result = []
 def kdxf_asr(audio):
     global wsParam
     # APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',APISecret='0c54ef03a106903edf9b9fce4e82cbc9'
-    wsParam = Ws_Param(APPID='5e6dbb5d', APIKey='9958a244dd66c20854c98e4b6e359530',
-        APISecret='62d36bbf3ac95ad860f447def4518d1c',
+    wsParam = Ws_Param(APPID='5e4936be', APIKey='a1d59fcb877819cf203e7ce804d248a4',
+        APISecret='0c54ef03a106903edf9b9fce4e82cbc9',
         AudioFile= audio )
     websocket.enableTrace(False)
     wsUrl = wsParam.create_url()
