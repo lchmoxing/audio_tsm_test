@@ -9,8 +9,8 @@ def acquaintance(a, b):
     result = Levenshtein.ratio(a, b)
     print(result)
 
-a = 'picture'
-b = 'turck'
+a = 'it'
+b = 'apple'
 acquaintance(a, b)
 
 

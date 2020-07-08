@@ -242,12 +242,12 @@ def selection_father(fitness_score_raw):
             fitness_score_cum[j] = fitness_score_distri[j]
         else:
             fitness_score_cum[j] = fitness_score_cum[j-1] + fitness_score_distri[j]
-    print(fitness_score_distri)
-    print(fitness_score_cum)
+    # print(fitness_score_distri)
+    # print(fitness_score_cum)
     ##轮盘赌
     for n in range(len(fitness_score_cum)):
         random_tmp = np.random.random(1)
-        print(random_tmp)
+        # print(random_tmp)
         if fitness_score_cum[n] > random_tmp:
             parent_tmp = n
             break
@@ -260,14 +260,14 @@ def crossover(pp1,pp2, perturb_speed,fitness_score):
         select_p = 0.5
     else:
         select_p = sp1 /(sp1+sp2)
-    print(select_p)
+ #   print(select_p)
     perturb_tmp = np.zeros(perturb_speed.shape[1])
     # print(sp1)
     # print(sp2)
     # print(select_p)
     for i in range(perturb_speed.shape[1]):
         random_tmp = np.random.random(1)
-  #      print(random_tmp)
+  #      print(random_tmp)qsgn
         if select_p > random_tmp:
             perturb_tmp[i] = perturb_speed[pp1][i]
         else:
@@ -275,27 +275,42 @@ def crossover(pp1,pp2, perturb_speed,fitness_score):
    #     print(perturb_tmp)
     return perturb_tmp
 
-def mutation(pop_num, perturb_speed_tmp, mutation_rate, mutation_step):
+def mutation(pop_num, perturb_speed_tmp, mutation_rate, mutation_step,mutation_range):
     for i in range(len(perturb_speed_tmp[pop_num])):
         random_tmp = np.random.random(1)
+        # print(random_tmp)
         if mutation_rate > random_tmp:
-            perturb_speed_tmp[pop_num][i] = perturb_speed_tmp[pop_num][i] + 
+            # print(perturb_speed_tmp[pop_num][i])
+            perturb_speed_tmp[pop_num][i] = perturb_speed_tmp[pop_num][i] + \
+                                            int(mutation_step * random.randrange(-mutation_range, mutation_range, 1))
+            # print(perturb_speed_tmp[pop_num][i])
+            if perturb_speed_tmp[pop_num][i] < 5:
+                perturb_speed_tmp[pop_num][i] = 5
+            elif perturb_speed_tmp[pop_num][i] > 20:
+                perturb_speed_tmp[pop_num][i] = 20
+    return  perturb_speed_tmp[pop_num]
+
+
 
 
 if __name__ == '__main__':
     pop_max = 10
-    gen_max = 20
+    gen_max = 10
     k = 0.8
     target = 'text'
     mutation_rate = 0.1
-    mutation_step = 0.15
+    mutation_step = 0.3
+    speed_max = 20
+    speed_min = 5
+    mutation_range = speed_max - speed_min
 
     # Create initial generation#
     gen = 1
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture"
     split_frame_num = len(os.listdir(path1))
-    perturb_speed = np.random.randint(5, 20, (pop_max, split_frame_num))
+    perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
     perturb_speed_tmp = np.zeros((pop_max, split_frame_num))
+    perturb_speed_mutation_tmp = np.zeros((pop_max, split_frame_num))
     hypothesis = []
     fitness_score = []
     for i in range(pop_max):
@@ -309,6 +324,10 @@ if __name__ == '__main__':
             i + 1) + '.wav'
         audio_join(join_input_path, join_output_path)
         result_tmp = asr_deepspeech(join_output_path)
+        filename = r"/home/usslab/qinhong/deepspeech/audio/speech_split/outputlee/result.txt"
+        if result_tmp != '':
+            with open(filename, 'a') as file_object:
+                file_object.write(str(gen) + '_' + str(j)  + ':' + result_tmp + '\n')
         hypothesis.append(result_tmp)
 ##计算fitness
         fitness_score.append(Levenshtein_similarity(result_tmp, target))
@@ -341,8 +360,13 @@ if __name__ == '__main__':
         # print(perturb_speed[pp1_index])
         # print(perturb_speed[pp2_index])
     print(perturb_speed_tmp)
+
     for j in range(pop_max):
-        perturb_speed_mutation_tmp[j] = mutation(j, perturb_speed_tmp, mutation_rate, mutation_step)
+        perturb_speed_mutation_tmp[j] = mutation(j, perturb_speed_tmp, mutation_rate, mutation_step,mutation_range)
+        # print(perturb_speed_mutation_tmp[j])
+
+    print(perturb_speed_mutation_tmp)
+
 
 
 ##
