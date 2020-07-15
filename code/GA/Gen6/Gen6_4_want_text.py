@@ -314,31 +314,48 @@ def mutation(pop_num, perturb_speed_tmp, mutation_rate, mutation_step,mutation_r
             perturb_speed_tmp[pop_num][i] = perturb_speed_tmp[pop_num][i] + \
                                             int(mutation_step * random.randrange(-mutation_range, mutation_range, 1))
             # print(perturb_speed_tmp[pop_num][i])
-            if perturb_speed_tmp[pop_num][i] < 5:
-                perturb_speed_tmp[pop_num][i] = 5
-            elif perturb_speed_tmp[pop_num][i] > 20:
-                perturb_speed_tmp[pop_num][i] = 20
+            if perturb_speed_tmp[pop_num][i] < speed_min:
+                perturb_speed_tmp[pop_num][i] = speed_min
+            elif perturb_speed_tmp[pop_num][i] > speed_max:
+                perturb_speed_tmp[pop_num][i] = speed_max
     return  perturb_speed_tmp[pop_num]
 
+def mut_jump(s_platform_count, mutation_rate,mutation_step):
+    mutation_rate = min(0.85, mutation_rate * (1 + 0.05 * s_platform_count))
+    mutation_step = min(1, mutation_step * (1 + 0.05 * s_platform_count))
+    return mutation_rate, mutation_step
 
-
+def mut_reduce(l_platform_count, mutation_rate,mutation_step,min_mutation_rate,min_mutation_step):
+    mutation_rate = max(min_mutation_rate, mutation_rate * pow(0.9, l_platform_count))
+    mutation_step = max(min_mutation_step, mutation_step * pow(0.9, l_platform_count))
+    return mutation_rate, mutation_step
 
 if __name__ == '__main__':
     pop_max = 100
-    gen_max = 500
-    k = 0.8
+    gen_max = 300
+
     target = 'I want to text'
-    mutation_rate = 0.1
-    mutation_step = 0.3
+
+    mutation_rate_init = 0.5
+    mutation_step_init = 0.4
+    min_mutation_rate = 0.1
+    min_mutation_step = 0.15
+    s_platform_count = 0
+    l_platform_count = 0
+    f_min_thr = 0.4
+    f_max_thr = 0.8
+    max_fitness_tmp = 0
+
     speed_max = 200
     speed_min = 50
     mutation_range = speed_max - speed_min
     prondict = cmudict.dict()
+
     # Create initial generation#
     gen = 1
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
     top_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split"
-    title = "g4_want_text_s0.01"
+    title = "g64_want_text"
     split_frame_num = len(os.listdir(path1))
 
     perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
@@ -388,10 +405,15 @@ if __name__ == '__main__':
     elite = hypothesis[elite_index]
     if max(fitness_score) == 1:
         print("Find successful attack")
+##初代最大值
+    max_fitness_tmp = max(fitness_score)
+    mutation_step = mutation_step_init
+    mutation_rate = mutation_rate_init
+
     print(hypothesis)
     # print(perturb_speed)
     print(fitness_score)
-    print(elite_index)
+    # print(elite_index)
     print(elite)
 ## 精英继承到下一代
     perturb_speed_tmp[0] = perturb_speed[elite_index]
@@ -407,11 +429,11 @@ if __name__ == '__main__':
         # print(perturb_speed[pp1_index])
         # print(perturb_speed[pp2_index])
     print(perturb_speed_tmp)
-
-    for j in range(pop_max):
-        perturb_speed_mutation_tmp[j] = mutation(j, perturb_speed_tmp, mutation_rate, mutation_step,mutation_range)
-        # print(perturb_speed_mutation_tmp[j])
-
+#最好的不变异#
+    perturb_speed_mutation_tmp[0] = perturb_speed_tmp[0]
+    for j in range(pop_max-1):
+        perturb_speed_mutation_tmp[j+1] = mutation(j+1, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
+        # print(perturb_speed_mutation_tmp[j+1])
     print(perturb_speed_mutation_tmp)
 
     gen = gen + 1
@@ -450,9 +472,34 @@ if __name__ == '__main__':
             print("Find successful attack")
             break
         print(hypothesis)
+        # print(max_fitness_tmp)
+        # print(s_platform_count)
+        # print(l_platform_count)
+        ##平台位计数
+        ##变异参数更新
+        if max(fitness_score) <= f_min_thr:
+            s_platform_count = s_platform_count + 1
+            mutation_rate, mutation_step = mut_jump(s_platform_count, mutation_rate_init, mutation_step_init)
+        elif max(fitness_score) >= f_max_thr:
+        #大平台值#
+            if max(fitness_score) <= max_fitness_tmp:
+                l_platform_count = l_platform_count + 1
+            else:
+                max_fitness_tmp = max(fitness_score)
+                l_platform_count = 0
+            mutation_rate, mutation_step = mut_reduce(l_platform_count, mutation_rate_init,mutation_step_init,min_mutation_rate,min_mutation_step)
+        else:
+            l_platform_count = 0
+            s_platform_count = 0
+            mutation_step = mutation_step_init
+            mutation_rate = mutation_rate_init
+
         # print(perturb_speed)
         print(fitness_score)
-        print(elite_index)
+        # print(max(fitness_score))
+        # print(s_platform_count)
+        # print(l_platform_count)
+        # print(elite_index)
         print(elite)
         ## 精英继承到下一代
         perturb_speed_tmp[0] = perturb_speed[elite_index]
@@ -467,13 +514,15 @@ if __name__ == '__main__':
             # print(pp2_index)
             # print(perturb_speed[pp1_index])
             # print(perturb_speed[pp2_index])
-        print(perturb_speed_tmp)
-
-        for j in range(pop_max):
-            perturb_speed_mutation_tmp[j] = mutation(j, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
+        # print(perturb_speed_tmp)
+        #
+        # print(mutation_step)
+        # print(mutation_rate)
+        perturb_speed_mutation_tmp[0] = perturb_speed_tmp[0]
+        for j in range(pop_max-1):
+            perturb_speed_mutation_tmp[j+1] = mutation(j+1, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
             # print(perturb_speed_mutation_tmp[j])
-
-        print(perturb_speed_mutation_tmp)
+        # print(perturb_speed_mutation_tmp)
         gen = gen + 1
 
 ##
