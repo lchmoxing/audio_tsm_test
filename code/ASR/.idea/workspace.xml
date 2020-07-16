@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="615133fa-78f5-432a-91dd-558927973bd5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ASR.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ASR.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../documents/基于音频预处理过程的语音识别系统攻击4.5.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../../documents/基于音频预处理过程的语音识别系统攻击4.5.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
