@@ -3,18 +3,18 @@ from audiotsm.io.wav import WavReader, WavWriter
 import numpy as np
 
 num = 0
-for num  in range(0,10):
+for num  in range(0,2):
     num +=1
     # output_phasevoctor_half = 'C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor0.5_' + str(num) +'.wav'
     # output_phasevoctor_one = 'C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.0_' + str(num) +'.wav'
     # output_phasevoctor_oneandhalf = 'C:/Users/73936/Desktop/voice_speech/dataset/phasevoctor1.5_' + str(num) +'.wav'
     # output_phasevoctor_twice = 'C:/Users/73936/Desktop/voice_speech/databset/phasevoctor2.0_' + str(num) +'.wav'
-    for i in np.arange(0.8, 1.2, 0.01):
+    for i in np.arange(0.5, 2.0, 0.05):
         i = round(i,2)
-        input_filename = 'D:/github/audio_tsm_test/dataset/liandu/' + str(num) +'.wav'
-        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/liandu/phasevoctor/' + str(i) + '_' + str(num) +'.wav'
-        output_ola = 'D:/github/audio_tsm_test/dataset/liandu/ola/' + str(i) + '_' + str(num) +'.wav'
-        output_wsola = 'D:/github/audio_tsm_test/dataset/liandu/wsola/' + str(i) + '_' + str(num) +'.wav'
+        input_filename = 'D:/github/audio_tsm_test/dataset/fuyin3/' + str(num) +'.wav'
+        output_phasevoctor = 'D:/github/audio_tsm_test/dataset/fuyin3/phasevoctor/' + str(i) + '_' + str(num) +'.wav'
+        output_ola = 'D:/github/audio_tsm_test/dataset/fuyin3/ola/' + str(i) + '_' + str(num) +'.wav'
+        output_wsola = 'D:/github/audio_tsm_test/dataset/fuyin3/wsola/' + str(i) + '_' + str(num) +'.wav'
         with WavReader(input_filename) as reader:
             print(num)
             print(i)
