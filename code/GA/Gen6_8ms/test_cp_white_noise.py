@@ -19,6 +19,7 @@ except ImportError:
 
 import os
 from pydub import AudioSegment
+from pydub.generators import WhiteNoise
 import wave
 import time
 import numpy as np
@@ -208,9 +209,10 @@ def audio_join(input_dir, output_dir):
 def audio_tsm_cp(ca_type, i, input_filename, output_filename):
     sound_cp_tmp = AudioSegment.from_wav(input_filename)
     sound_cp_init = sound_cp_tmp[0:7]
+    noise = WhiteNoise().to_audio_segment(duration=8)
     # print(sound_cp_tmp)
-    print(sound_cp_init)
-    sound_cp = sound_cp_init + sound_cp_tmp
+    # print(sound_cp_init)
+    sound_cp = noise + sound_cp_tmp
     out_dir_tmp = os.getcwd() + '/tsm_tmp.wav'
     sound_cp.export(out_dir_tmp, format="wav")
     with WavReader(out_dir_tmp) as reader:
