@@ -205,6 +205,23 @@ def audio_join(input_dir, output_dir):
     join_sound_lists.export(output_dir, format="wav")
     print("audio_join successfully")
 
+def audio_tsm_cp(ca_type, i, input_filename, output_filename):
+    sound_cp_tmp = AudioSegment.from_wav(input_filename)
+    sound_cp_init = sound_cp_tmp[0:8]
+    sound_cp = sound_cp_init + sound_cp_tmp
+    out_dir_tmp = os.getcwd() + '/tsm_tmp.wav'
+    sound_cp.export(out_dir_tmp, format="wav")
+    with WavReader(out_dir_tmp) as reader:
+        with WavWriter(output_filename, reader.channels, reader.samplerate) as writer_tsm:
+            if (ca_type == phasevocoder):
+                tsm = phasevocoder(reader.channels, speed=i)
+            if (ca_type == ola):
+                tsm = ola(reader.channels, speed=i)
+            if (ca_type == wsola):
+                tsm = wsola(reader.channels, speed=i)
+            tsm.run(reader, writer_tsm)
+    # print("audio_tsm successfully")
+
 
 def audio_tsm(ca_type, i, input_filename, output_filename):
     with WavReader(input_filename) as reader:
@@ -217,7 +234,6 @@ def audio_tsm(ca_type, i, input_filename, output_filename):
                 tsm = wsola(reader.channels, speed=i)
             tsm.run(reader, writer_tsm)
     # print("audio_tsm successfully")
-
 
 def Levenshtein_similarity(origin, target):
     ls_result = Levenshtein.ratio(origin, target)
@@ -331,8 +347,8 @@ def mut_reduce(l_platform_count, mutation_rate,mutation_step,min_mutation_rate,m
     return mutation_rate, mutation_step
 
 if __name__ == '__main__':
-    pop_max = 100
-    gen_max = 300
+    pop_max = 10
+    gen_max = 1
 
     target = 'I want to text'
 
@@ -355,10 +371,11 @@ if __name__ == '__main__':
     gen = 1
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
     top_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split"
-    title = "g64_want_text"
+    title = "test_cp"
     split_frame_num = len(os.listdir(path1))
 
-    perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
+    #   perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
+    perturb_speed = np.ones((pop_max, split_frame_num)) * 80
     perturb_speed_tmp = np.zeros((pop_max, split_frame_num))
     perturb_speed_mutation_tmp = np.zeros((pop_max, split_frame_num))
     hypothesis = []
@@ -382,7 +399,7 @@ if __name__ == '__main__':
             tsm_in_path = path1 + '/' + "1_{}.wav".format(str(j+1))
             tsm_out_path = tsm_directory + '/' + str(j + 1) + '.wav'
             v = perturb_speed[i][j] / 100
-            audio_tsm(ola, v, tsm_in_path, tsm_out_path)
+            audio_tsm_cp(ola, v, tsm_in_path, tsm_out_path)
         join_input_path = tsm_directory
         join_output_path = join_output_directory + "/" + str(gen) + '_' + str(i + 1) + '.wav'
         audio_join(join_input_path, join_output_path)
@@ -428,13 +445,13 @@ if __name__ == '__main__':
         # print(pp2_index)
         # print(perturb_speed[pp1_index])
         # print(perturb_speed[pp2_index])
-    print(perturb_speed_tmp)
+    # print(perturb_speed_tmp)
 #最好的不变异#
     perturb_speed_mutation_tmp[0] = perturb_speed_tmp[0]
     for j in range(pop_max-1):
         perturb_speed_mutation_tmp[j+1] = mutation(j+1, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
         # print(perturb_speed_mutation_tmp[j+1])
-    print(perturb_speed_mutation_tmp)
+    # print(perturb_speed_mutation_tmp)
 
     gen = gen + 1
     # 开始迭代#
@@ -449,7 +466,7 @@ if __name__ == '__main__':
                 tsm_in_path = path1 + '/' + "1_{}.wav".format(str(j+1))
                 tsm_out_path = tsm_directory + '/' + str(j + 1) + '.wav'
                 v = perturb_speed[i][j] / 100
-                audio_tsm(ola, v, tsm_in_path, tsm_out_path)
+                audio_tsm_cp(ola, v, tsm_in_path, tsm_out_path)
             join_input_path = tsm_directory
             join_output_path = join_output_directory + "/" + str(gen) + '_' + str(i + 1) + '.wav'
             audio_join(join_input_path, join_output_path)
