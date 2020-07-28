@@ -18,6 +18,7 @@ except ImportError:
     from pipes import quote
 
 import os
+import pydub
 from pydub import AudioSegment
 from pydub.generators import WhiteNoise
 import wave
@@ -208,8 +209,18 @@ def audio_join(input_dir, output_dir):
 
 def audio_tsm_cp(ca_type, i, input_filename, output_filename):
     sound_cp_tmp = AudioSegment.from_wav(input_filename)
-    sound_cp_init = sound_cp_tmp[0:7]
-    noise = WhiteNoise().to_audio_segment(duration=8)
+    #blank#
+    noise = AudioSegment.silent(duration=8)
+
+    #head8#
+    # noise = sound_cp_tmp[0:7]
+
+    #white_noise#
+    # noise = AudioSegment.silent(duration=8)
+    # noise_tmp = WhiteNoise().to_audio_segment(duration=len(noise))
+    # noise = noise.overlay(noise_tmp)
+    # generator = pydub.generators.WhiteNoise(sample_rate=16000)
+    # noise = generator.to_audio_segment(duration=8)
     # print(sound_cp_tmp)
     # print(sound_cp_init)
     sound_cp = noise + sound_cp_tmp
@@ -235,7 +246,7 @@ def audio_tsm(ca_type, i, input_filename, output_filename):
             if (ca_type == ola):
                 tsm = ola(reader.channels, speed=i)
             if (ca_type == wsola):
-                tsm = wsola(reader.channels, speed=i)
+                tsm = wsola(reader.channels, speed=i, frame_length=128)
             tsm.run(reader, writer_tsm)
     # print("audio_tsm successfully")
 
@@ -375,11 +386,11 @@ if __name__ == '__main__':
     gen = 1
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
     top_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split"
-    title = "test_cp_wn"
+    title = "test_cp_s0.9_b_50_wsola"
     split_frame_num = len(os.listdir(path1))
 
     #   perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
-    perturb_speed = np.ones((pop_max, split_frame_num)) * 80
+    perturb_speed = np.ones((pop_max, split_frame_num)) * 90
     perturb_speed_tmp = np.zeros((pop_max, split_frame_num))
     perturb_speed_mutation_tmp = np.zeros((pop_max, split_frame_num))
     hypothesis = []
@@ -403,7 +414,7 @@ if __name__ == '__main__':
             tsm_in_path = path1 + '/' + "1_{}.wav".format(str(j+1))
             tsm_out_path = tsm_directory + '/' + str(j + 1) + '.wav'
             v = perturb_speed[i][j] / 100
-            audio_tsm_cp(ola, v, tsm_in_path, tsm_out_path)
+            audio_tsm(wsola, v, tsm_in_path, tsm_out_path)
         join_input_path = tsm_directory
         join_output_path = join_output_directory + "/" + str(gen) + '_' + str(i + 1) + '.wav'
         audio_join(join_input_path, join_output_path)
