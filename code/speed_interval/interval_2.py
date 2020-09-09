@@ -214,7 +214,7 @@ def audio_tsm(ca_type, i, input_filename, output_filename):
             if (ca_type == ola):
                 tsm = ola(reader.channels, speed=i)
             if (ca_type == wsola):
-                tsm = wsola(reader.channels, speed=i)
+                tsm = wsola(reader.channels, speed=i,frame_length=256)
             tsm.run(reader, writer_tsm)
     # print("audio_tsm successfully")
 
@@ -346,7 +346,20 @@ if __name__ == '__main__':
 
     split_frame_num = len(os.listdir(path1))
 
-    perturb_speed = np.linspace(1.5, 1.5-split_frame_num * 0.02, split_frame_num)
+    perturb_speed = []
+    init_s = 0.5
+    t = 0
+    for i in range(split_frame_num):
+        # perturb_speed.append(0.5)
+        if t==1:
+            perturb_speed.append(0.5)
+            t = 0
+        else:
+            perturb_speed.append(1.5)
+            t = 1
+
+    # perturb_speed = np.linspace(0.5, 0.5+split_frame_num * 0.01, split_frame_num)
+    print(perturb_speed)
     # perturb_speed = np.array([1,2,1,1,1,0.5,1])
 
     for j in range(split_frame_num):
