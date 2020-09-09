@@ -6,10 +6,12 @@ import Levenshtein
 
 
 def acquaintance(a, b):
+    l_result = Levenshtein.distance(a,b)
+    print(l_result)
     result = Levenshtein.ratio(a, b)
     print(result)
 
-a = 'his picture was olfert newspapers'
+a = 'newspapers'
 b = 'text'
 acquaintance(a, b)
 
