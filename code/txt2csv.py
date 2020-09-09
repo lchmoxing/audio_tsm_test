@@ -10,10 +10,10 @@ import sys
 # os.chdir(sys.path[0])
 # txt_path = os.getcwd() + r'\628juzi' 
 # print(txt_path)
-txt_path = "C:/Users/qinhong/Desktop/text1"
+txt_path = r"C:\Users\qinhong\Documents\GitHub\audio_tsm_final\audio92\9.8test_text"
 txt_list = os.listdir(txt_path)
 print(txt_list)
-txt_list.sort(key=lambda x: str(x[:-4])) 
+txt_list.sort(key=lambda x: int(x[:-4])) 
 csv_file = []
 # print(txt_path+'\\' +txt_list[0])
 results = pd.DataFrame({"sentence_num":range(1,2)})

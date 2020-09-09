@@ -183,7 +183,7 @@ def baidu_asr(AUDIO_FILE):
 test_num =1
 for k in range(0,test_num):
     path = os.getcwd()
-    path = os.path.join(path+r"\baidu_without_wake_words_61_" + str(1)+ ".csv")
+    path = os.path.join(path+r"\baidu_628_" + str(1)+ ".csv")
     origin_result = []
     phasevoctor_result = []
     ola_result = []
@@ -201,10 +201,10 @@ for k in range(0,test_num):
             # audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'   
             
             ### voice without wake words
-            audio_origin = path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.wav'
-            audio_phasevoctor = path1 + '/dataset/dataset61/phasevoctor' + str(i) + '_' + str(num) +'.wav'
-            audio_ola = path1 + '/dataset/dataset61/ola' + str(i) + '_' + str(num) +'.wav'
-            audio_wsola = path1 + '/dataset/dataset61/wsola' + str(i) + '_' + str(num) +'.wav'
+            audio_origin = path1 + '/dataset/liandu/' + str(num) +'.wav'
+            audio_phasevoctor = path1 + '/dataset/liandu/phasevoctor/16k/' + str(i) + '_' + str(num) +'.wav'
+            audio_ola = path1 + '/dataset/liandu/ola/16k/' + str(i) + '_' + str(num) +'.wav'
+            audio_wsola = path1 + '/dataset/liandu/wsola/16k/' + str(i) + '_' + str(num) +'.wav'
             # audio_phasevoctor = path1 + '/dataset/speech_TSM/without_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.wav'
             # audio_ola = path1 + '/dataset/speech_TSM/without_wake_words/ola' + str(i) + '_' + str(num) +'.wav'
             # audio_wsola = path1 + '/dataset/speech_TSM/without_wake_words/wsola' + str(i) + '_' + str(num) +'.wav'

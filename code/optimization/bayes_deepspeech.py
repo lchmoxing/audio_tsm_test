@@ -210,13 +210,14 @@ def audio_tsm(ca_type,i,input_filename,output_filename):
             tsm.run(reader, writer_tsm)
     #print("audio_tsm successfully")
 
-def black_box_function(slot_num ,tsm_speed):
+def black_box_function(tsm_speed):
     """Function with unknown internals we wish to maximize.
 
     This is just serving as an example, for all intents and
     purposes think of the internals of this function, i.e.: the process
     which generates its output values, as unknown.
     """
+    slot_num  = 2
     slot_num = int(slot_num)
     tsm_speed = int(tsm_speed)
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture"
@@ -225,6 +226,7 @@ def black_box_function(slot_num ,tsm_speed):
     # shutil.copytree(path1, join_input_path)
     permutations = [c for c in  combinations(range(1,len(os.listdir(path1))+1), slot_num)]#排列组合的所有可能性
     combs = comb(len(os.listdir(path1)), slot_num)#排列组合的总数目
+    # random.randint(range(int(combs)))
     for m in range(int(combs)):
         # shutil.copytree(path1, join_input_path)
         for n in range(slot_num):
@@ -234,16 +236,21 @@ def black_box_function(slot_num ,tsm_speed):
             v = tsm_speed/10
             audio_tsm(ola, v, tsm_in_path, tsm_out_path)
         join_input_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/tsm"
-        join_output_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/output/"  + str(slot_num) + '_' + str(tsm_speed) + '_'+str(m+1) + '.wav'
+        join_output_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split/output4/"  + str(slot_num) + '_' + str(tsm_speed) + '_'+str(m+1) + '.wav'
         audio_join(join_input_path,join_output_path)
         hypothesis = asr_deepspeech(join_output_path)
-        asr_wer = wer("turn", hypothesis)
+        filename = r"/home/usslab/qinhong/deepspeech/audio/speech_split/output4/result.txt"
+        if hypothesis !='':
+            with open(filename, 'a') as file_object:
+                file_object.write(str(slot_num) + '_' + str(tsm_speed) + '_'+str(m+1) + ':' + hypothesis + '\n')
+        asr_wer = wer("picture", hypothesis)
         # shutil.rmtree(join_input_path)
         # if not os.path.isdir(join_input_path):
         #     os.makedirs(join_input_path)
-    return (1-asr_wer)
+    return (asr_wer)
 # Bounded region of parameter space
-pbounds = {'slot_num': (1, 8), 'tsm_speed': (5, 15)}
+# pbounds = {'slot_num': (2, 3), 'tsm_speed': (5, 20)}
+pbounds = {'tsm_speed': (5, 20)}
 
 optimizer = BayesianOptimization( 
     f=black_box_function,
@@ -253,6 +260,6 @@ optimizer = BayesianOptimization(
 
 
 optimizer.maximize(
-    init_points=10,
-    n_iter=2000,
+    init_points=1000,
+    n_iter=100,
 )

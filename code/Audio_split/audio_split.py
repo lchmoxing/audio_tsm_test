@@ -34,7 +34,7 @@ def CutFile(file):
     print(np.shape(temp_data))
  #   StepNum = int(CutFrameNum/2)
     StepNum = CutFrameNum
-    StepTotalNum = 0;
+    StepTotalNum = 0
     count = 0
     while StepTotalNum < nframes:
         print("Stemp=%d" % (count))
@@ -42,8 +42,8 @@ def CutFile(file):
         print(FileName)
         temp_dataTemp = temp_data[StepNum*(count):StepNum*(count + 1)]
 
-        count = count + 1;
-        StepTotalNum = count * StepNum;
+        count = count + 1
+        StepTotalNum = count * StepNum
         temp_dataTemp.shape = 1, -1
         temp_dataTemp = temp_dataTemp.astype(np.short)  # 打开WAV文档
         f = wave.open(FileName, "wb")  #
