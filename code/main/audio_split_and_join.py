@@ -75,7 +75,7 @@ def audio_join(input_dir, output_dir):
     for i in range(len(os.listdir(input_dir))):
         filename = input_dir + '\\'  +str(i + 1) + '.wav'
         join_sound_lists += AudioSegment.from_wav(filename)
-    join_sound_lists.export(output_dir, format="wav")
+    join_sound_lists.export(output_dir, format="wav") 
     print("audio_join successfully")
 
 def audio_tsm(ca_type,i,input_filename,output_filename):

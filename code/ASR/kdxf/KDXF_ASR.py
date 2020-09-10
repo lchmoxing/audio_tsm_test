@@ -49,7 +49,7 @@ path =os.path.dirname(path)
 path1 =os.path.dirname(path)
 path1 = 'D:/github/audio_tsm_test'
 print(path1)
-result = ""
+# lobal result
 
 class Ws_Param(object):
     # 初始化
@@ -63,7 +63,7 @@ class Ws_Param(object):
         self.CommonArgs = {"app_id": self.APPID}
         # 业务参数(business)，更多个性化参数可在官网查看
         # self.BusinessArgs = {"domain": "iat", "language": "zh_cn", "accent": "mandarin", "vinfo":1,"vad_eos":10000}
-        self.BusinessArgs = {"domain": "iat", "language": "en_us", "vad_eos":2000}
+        self.BusinessArgs = {"domain": "iat", "language": "en_us", "vad_eos":200}
 
     # 生成url
     def create_url(self):
@@ -102,7 +102,7 @@ class Ws_Param(object):
 
 # 收到websocket消息的处理
 def on_message(ws, message):
-    # global result
+    global result
     try:
         code = json.loads(message)["code"]
         sid = json.loads(message)["sid"]
@@ -196,7 +196,7 @@ def write_csv_file(path, head, data):
         print("Write an CSV file to path: %s, Case: %s" % (path, e))
 
 path = os.getcwd()
-path = os.path.join(path+r"\kdxf_627.csv")
+path = os.path.join(path+r"\kdxf_628.csv")
 
 origin_result = []
 phasevoctor_result = []
@@ -235,18 +235,18 @@ if __name__ == "__main__":
     # kdxf_asr(audio_origin)
     num = 0#choose one of the ten origin speech
 
-    for i in np.arange(0.8, 1.2, 0.01):
+    for i in np.arange(0.5, 2.0, 0.05):
         i = round(i,2)
         for num in range(0, 10):
             num +=1
             ### voice without wake words
-            audio_origin =  path1 + '/dataset/liandu/' + str(num) +'.mp3'
+            audio_origin =  path1 + '/dataset/sentence/' + str(num) +'.mp3'
             # audio_phasevoctor = path1 + '/dataset/speech_TSM/with_wake_words/phasevoctor' + str(i) + '_' + str(num) +'.mp3'
             # audio_ola = path1 + '/dataset/speech_TSM/with_wake_words/ola' + str(i) + '_' + str(num) +'.mp3'
             # audio_wsola = path1 + '/dataset/speech_TSM/with_wake_words/wsola' + str(i) + '_' + str(num) +'.mp3'
-            audio_phasevoctor = path1 + '/dataset/liandu/phasevoctor/' + str(i) + '_' + str(num) +'.mp3'
-            audio_ola = path1 + '/dataset/liandu/ola/' + str(i) + '_' + str(num) +'.mp3'
-            audio_wsola = path1 + '/dataset/liandu/wsola/' + str(i) + '_' + str(num) +'.mp3'
+            audio_phasevoctor = path1 + '/dataset/sentence/phasevoctor/' + str(i) + '_' + str(num) +'.mp3'
+            audio_ola = path1 + '/dataset/sentence/ola/' + str(i) + '_' + str(num) +'.mp3'
+            audio_wsola = path1 + '/dataset/sentence/wsola/' + str(i) + '_' + str(num) +'.mp3'
        
             ### voice without wake words
             # audio_origin =  path1 + '/dataset/speech_origin/without_wake_words/' + str(num) +'.mp3'

@@ -1,7 +1,7 @@
 import pandas as pd
 import os
-Folder_Path = r'D:\projects\voice\DS_10283_2651\VCTK-Corpus\VCTK-Corpus\csv'          #要拼接的文件夹及其完整路径，注意不要包含中文
-SaveFile_Path =  r'D:\projects\voice\DS_10283_2651\VCTK-Corpus\VCTK-Corpus\csv'       #拼接后要保存的文件路径
+Folder_Path = r'C:\Users\qinhong\Desktop\audio92\longsentences16k_text'          #要拼接的文件夹及其完整路径，注意不要包含中文
+SaveFile_Path =  r'C:\Users\qinhong\Desktop\audio92\longsentences16k_text'       #拼接后要保存的文件路径
 SaveFile_Name = r'all.csv'              #合并后要保存的文件名
  
 #修改当前工作目录
