@@ -220,7 +220,7 @@ def audio_tsm(ca_type, i, input_filename, output_filename):
 
 
 def Levenshtein_similarity(origin, target):
-    ls_result = Levenshtein.jaro_winkler(origin, target)
+    ls_result = Levenshtein.ratio(origin, target)
     return ls_result
 
 def Pho_Levenshtein_similarity(origin, target):
@@ -228,7 +228,7 @@ def Pho_Levenshtein_similarity(origin, target):
     list_b = split_tran(target)
     str_a = list_str(list_a)
     str_b = list_str(list_b)
-    pho_ls_result = Levenshtein.jaro_winkler(str_a, str_b)
+    pho_ls_result = Levenshtein.ratio(str_a, str_b)
     return pho_ls_result
 
 def split_tran(txt):
@@ -334,7 +334,7 @@ if __name__ == '__main__':
     pop_max = 100
     gen_max = 300
 
-    target = 'wait action'
+    target = 'wait'
 
     mutation_rate_init = 0.5
     mutation_step_init = 0.4
@@ -355,7 +355,7 @@ if __name__ == '__main__':
     gen = 1
     path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
     top_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split"
-    title = "g65_wait_action"
+    title = "g65_wait"
     split_frame_num = len(os.listdir(path1))
 
     perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))

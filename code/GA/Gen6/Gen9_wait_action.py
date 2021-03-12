@@ -399,7 +399,7 @@ if __name__ == '__main__':
         hypothesis.append(result_tmp)
 ##计算fitness
         # print(Pho_Levenshtein_similarity(result_tmp, target))
-        fitness_score.append(Pho_Levenshtein_similarity(result_tmp, target))
+        fitness_score.append(Levenshtein_similarity(result_tmp, target))
 ##找到精英
     elite_index = fitness_score.index(max(fitness_score))
     elite = hypothesis[elite_index]
@@ -464,7 +464,7 @@ if __name__ == '__main__':
             hypothesis.append(result_tmp)
         ##计算fitness
             # print(Pho_Levenshtein_similarity(result_tmp, target))
-            fitness_score.append(Pho_Levenshtein_similarity(result_tmp, target))
+            fitness_score.append(Levenshtein_similarity(result_tmp, target))
         ##找到精英
         elite_index = fitness_score.index(max(fitness_score))
         elite = hypothesis[elite_index]

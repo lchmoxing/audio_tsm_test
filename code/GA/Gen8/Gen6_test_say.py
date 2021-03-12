@@ -217,10 +217,16 @@ def audio_tsm(ca_type, i, input_filename, output_filename):
                 tsm = wsola(reader.channels, speed=i)
             tsm.run(reader, writer_tsm)
     # print("audio_tsm successfully")
-
+def audio_tsm2(ca_type,i,input_filename,output_filename):
+    if (ca_type == "ffmpeg"):
+        # cmd = "ffmpeg -n -i "+input_filename+" -filter:a atempo=" + str(i)  + " -vn " + output_filename
+        cmd = "ffmpeg -y -i " + input_filename + " -filter:a atempo=" + str(i) + " -vn " + output_filename
+        os.system(cmd)
+        # print(cmd)
+    # print("audio_tsm2 successfully")
 
 def Levenshtein_similarity(origin, target):
-    ls_result = Levenshtein.jaro_winkler(origin, target)
+    ls_result = Levenshtein.ratio(origin, target)
     return ls_result
 
 def Pho_Levenshtein_similarity(origin, target):
@@ -228,7 +234,7 @@ def Pho_Levenshtein_similarity(origin, target):
     list_b = split_tran(target)
     str_a = list_str(list_a)
     str_b = list_str(list_b)
-    pho_ls_result = Levenshtein.jaro_winkler(str_a, str_b)
+    pho_ls_result = Levenshtein.ratio(str_a, str_b)
     return pho_ls_result
 
 def split_tran(txt):
@@ -332,10 +338,11 @@ def mut_reduce(l_platform_count, mutation_rate,mutation_step,min_mutation_rate,m
 
 if __name__ == '__main__':
     pop_max = 100
-    gen_max = 300
+    gen_max = 50
 
-    target = 'wait action'
+    target = 'how long have you say there'
 
+    task_count = 0
     mutation_rate_init = 0.5
     mutation_step_init = 0.4
     min_mutation_rate = 0.1
@@ -353,9 +360,10 @@ if __name__ == '__main__':
 
     # Create initial generation#
     gen = 1
-    path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
-    top_path = r"/home/usslab/qinhong/deepspeech/audio/speech_split"
-    title = "g65_wait_action"
+    #path1 = r"/home/usslab/qinhong/deepspeech/audio/speech_split/picture_1_50ms"
+    path1 = r"/home/usslab/Documents/qinhong/audio/tts/partial/split_audio/no_wake_words/7/200/103"
+    top_path = r"/home/usslab/Documents/chaohao/audio_ffmpeg"
+    title = "g6_ffmpeg_say"
     split_frame_num = len(os.listdir(path1))
 
     perturb_speed = np.random.randint(speed_min, speed_max, (pop_max, split_frame_num))
@@ -379,19 +387,20 @@ if __name__ == '__main__':
 
     for i in range(pop_max):
         for j in range(split_frame_num):
-            tsm_in_path = path1 + '/' + "1_{}.wav".format(str(j+1))
+            tsm_in_path = path1 + '/' + "{}.wav".format(str(j+1))
             tsm_out_path = tsm_directory + '/' + str(j + 1) + '.wav'
             v = perturb_speed[i][j] / 100
-            audio_tsm(ola, v, tsm_in_path, tsm_out_path)
+            audio_tsm2("ffmpeg", v, tsm_in_path, tsm_out_path)
         join_input_path = tsm_directory
         join_output_path = join_output_directory + "/" + str(gen) + '_' + str(i + 1) + '.wav'
         audio_join(join_input_path, join_output_path)
         result_tmp = asr_deepspeech(join_output_path)
 
-        if result_tmp != '':
+        if result_tmp == target:
+            task_count = task_count + 1
             with open(filename, 'a') as file_object:
-                file_object.write(str(gen) + '_' + str(i+1) + ':' + result_tmp + '\n')
-                file_object.write('speed_sequence' + ':')
+                # file_object.write(str(gen) + '_' + str(i+1) + ':' + result_tmp + '\n')
+                # file_object.write('speed_sequence' + ':')
                 for j in range(split_frame_num):
                     file_object.write(str(perturb_speed[i][j]) + '_')
                 file_object.write('\n')
@@ -399,7 +408,7 @@ if __name__ == '__main__':
         hypothesis.append(result_tmp)
 ##计算fitness
         # print(Pho_Levenshtein_similarity(result_tmp, target))
-        fitness_score.append(Pho_Levenshtein_similarity(result_tmp, target))
+        fitness_score.append(Levenshtein_similarity(result_tmp, target))
 ##找到精英
     elite_index = fitness_score.index(max(fitness_score))
     elite = hypothesis[elite_index]
@@ -411,10 +420,10 @@ if __name__ == '__main__':
     mutation_rate = mutation_rate_init
 
     print(hypothesis)
-    # print(perturb_speed)
-    print(fitness_score)
+    # # print(perturb_speed)
+    # print(fitness_score)
     # print(elite_index)
-    print(elite)
+    # print(elite)
 ## 精英继承到下一代
     perturb_speed_tmp[0] = perturb_speed[elite_index]
 
@@ -428,13 +437,13 @@ if __name__ == '__main__':
         # print(pp2_index)
         # print(perturb_speed[pp1_index])
         # print(perturb_speed[pp2_index])
-    print(perturb_speed_tmp)
+    # print(perturb_speed_tmp)
 #最好的不变异#
     perturb_speed_mutation_tmp[0] = perturb_speed_tmp[0]
     for j in range(pop_max-1):
         perturb_speed_mutation_tmp[j+1] = mutation(j+1, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
         # print(perturb_speed_mutation_tmp[j+1])
-    print(perturb_speed_mutation_tmp)
+    # print(perturb_speed_mutation_tmp)
 
     gen = gen + 1
     # 开始迭代#
@@ -446,31 +455,34 @@ if __name__ == '__main__':
         fitness_score = []
         for i in range(pop_max):
             for j in range(split_frame_num):
-                tsm_in_path = path1 + '/' + "1_{}.wav".format(str(j+1))
+                tsm_in_path = path1 + '/' + "{}.wav".format(str(j+1))
                 tsm_out_path = tsm_directory + '/' + str(j + 1) + '.wav'
                 v = perturb_speed[i][j] / 100
-                audio_tsm(ola, v, tsm_in_path, tsm_out_path)
+                audio_tsm2("ffmpeg", v, tsm_in_path, tsm_out_path)
             join_input_path = tsm_directory
             join_output_path = join_output_directory + "/" + str(gen) + '_' + str(i + 1) + '.wav'
             audio_join(join_input_path, join_output_path)
             result_tmp = asr_deepspeech(join_output_path)
-            if result_tmp != '':
+
+            if (result_tmp == target) and (i != 0):
+                task_count = task_count + 1
                 with open(filename, 'a') as file_object:
-                    file_object.write(str(gen) + '_' + str(i+1) + ':' + result_tmp + '\n')
-                    file_object.write('speed_sequence' + ':')
+                    # file_object.write(str(gen) + '_' + str(i+1) + ':' + result_tmp + '\n')
+                    # file_object.write('speed_sequence' + ':')
                     for j in range(split_frame_num):
                         file_object.write(str(perturb_speed[i][j]) + '_')
                     file_object.write('\n')
+                if task_count >= 200:
+                    break
             hypothesis.append(result_tmp)
         ##计算fitness
             # print(Pho_Levenshtein_similarity(result_tmp, target))
-            fitness_score.append(Pho_Levenshtein_similarity(result_tmp, target))
+            fitness_score.append(Levenshtein_similarity(result_tmp, target))
         ##找到精英
         elite_index = fitness_score.index(max(fitness_score))
         elite = hypothesis[elite_index]
         if max(fitness_score) == 1:
             print("Find successful attack")
-            break
         print(hypothesis)
         # print(max_fitness_tmp)
         # print(s_platform_count)
@@ -510,26 +522,10 @@ if __name__ == '__main__':
             pp1_index = selection_father(fitness_score)
             pp2_index = selection_father(fitness_score)
             perturb_speed_tmp[i + 1] = crossover(pp1_index, pp2_index, perturb_speed, fitness_score)
-            # print(pp1_index)
-            # print(pp2_index)
-            # print(perturb_speed[pp1_index])
-            # print(perturb_speed[pp2_index])
-        # print(perturb_speed_tmp)
-        #
         # print(mutation_step)
         # print(mutation_rate)
         perturb_speed_mutation_tmp[0] = perturb_speed_tmp[0]
         for j in range(pop_max-1):
             perturb_speed_mutation_tmp[j+1] = mutation(j+1, perturb_speed_tmp, mutation_rate, mutation_step, mutation_range)
-            # print(perturb_speed_mutation_tmp[j])
-        # print(perturb_speed_mutation_tmp)
+
         gen = gen + 1
-
-##
-
-
-# fitness需要修改#
-# def compute_fitness(hypothesis, target):
-#     target_score = Levenshtein_similarity(hypothesis, target)
-#     return target_score
-
